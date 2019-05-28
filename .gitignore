@@ -1,0 +1,15 @@
+# Directories
+hidden/*
+!hidden/README.md
+.tmux/plugins/
+.tmux/resurrect/
+.vim/backups/*
+.vim/bundle/*
+.vim/spell/*
+
+# Files
+.shellrc.load
+.tmux.conf
+tags
+tmux-last
+vimrc
