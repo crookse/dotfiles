@@ -32,3 +32,5 @@ vim
 ```
 :PluginInstall
 ```
+
+Install the Menlo-ForPowerline font by double-clicking `~/dotfiles/assets/fonts/Menlo-ForPowerline.ttc
