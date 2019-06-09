@@ -11,35 +11,30 @@ set -g status-interval 60
 #
 # Default Status Bar Settings
 #
-set-option -g status-fg $COLOR_STATUS_FOREGROUND
-set-option -g status-bg default
-set-option -g status-attr default
+set-option -g status-style bg=default,fg=$COLOR_STATUS_FOREGROUND
 
 #
 # Default window Title Settings
 #
-set-window-option -g window-status-fg $COLOR_STATUS_FOREGROUND
-set-window-option -g window-status-bg $COLOR_STATUS_BACKGROUND
+set-window-option -g window-status-style bg=$COLOR_STATUS_BACKGROUND,fg=$COLOR_STATUS_FOREGROUND
 set -g window-status-format " #I #W "
 
 #
 # Active Window Title Settings
 #
-set-window-option -g window-status-current-fg colour0
-set-window-option -g window-status-current-bg $COLOR_ACTIVE
+set-window-option -g window-status-current-style bg=$COLOR_ACTIVE,fg=colour0
 set-window-option -g window-status-current-format " #I #W "
 
 #
 # Pane Border
 #
-set-option -g pane-border-fg $COLOR_STATUS_FOREGROUND
-set-option -g pane-active-border-fg $COLOR_STATUS_FOREGROUND
+set-option -g pane-border-style fg=$COLOR_STATUS_FOREGROUND
+set-option -g pane-active-border-style fg=$COLOR_STATUS_FOREGROUND
 
 #
 # Message Text
 #
-set-option -g message-bg default
-set-option -g message-fg $COLOR_ACTIVE
+set-option -g message-style bg=default,fg=$COLOR_ACTIVE
 
 #
 # Pane Number Display
@@ -55,11 +50,9 @@ set-window-option -g clock-mode-colour colour160
 #
 # Title String Settings
 #
-# If you're using iTerm2, then these will be used in place of the tabs you have set for iTerm2. It
-# is recommended that you uncheck the following in Appearance > Window & Tab Titles:
-#
-# Show current job name
-# Show profile name
+# If you're using iTerm2, then this title string will be used in place of the tab names you may have
+# set for iTerm2. This will also replace any "Thank you for flying Vim" tab titles. It is
+# recommended that you UNCHECK the "Show profile name" setting in Appearance > Window & Tab Titles.
 #
 set -g set-titles-string "#S -- #W"
 
@@ -83,4 +76,3 @@ node_version="#[fg=$COLOR_ACTIVE]Node #(node --version) (#[fg=$COLOR_ACTIVE]npm 
 xcode_select_version="#[fg=$COLOR_ACTIVE]#(/usr/bin/xcode-select --version | sed -e 's/version /v/g' | sed s'/.$//') (#[fg=$COLOR_ACTIVE]pod v#(pod --version))"
 
 set -g status-right "$php_version_bin $separator_forward $php_version_local_bin $separator_forward $node_version $separator_forward #[fg=$COLOR_BLUE]%A | %d %H%M R %m %Y"
-
