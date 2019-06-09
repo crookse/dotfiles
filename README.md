@@ -10,14 +10,16 @@ This repo contains dotfiles (e.g., `.somefile`) for a development environment se
 
 ## Installation
 
-Install dotfiles, Vim, and tmux
+### Step 1: Install dotfiles, Vim, and tmux
+
+_This step uses [Homebrew](https://brew.sh/) to install Vim and tmux_
 
 ```
-brew install vim
-brew install tmux
 mkdir /var/src
 git clone https://github.com/crookse/dotfiles.git /var/src/dotfiles
 ln -s /var/src/dotfiles ~/dotfiles
+brew install vim
+brew install tmux
 ```
 
 ### Step 2: Make symlinks to dotfiles
