@@ -6,6 +6,7 @@ hidden/*
 .vim/backups/*
 .vim/bundle/*
 .vim/spell/*
+assets/tmux-theme
 
 # Files
 .bash_profile
