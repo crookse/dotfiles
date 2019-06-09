@@ -1,0 +1,18 @@
+#!/bin/bash
+
+(
+  symlink() {
+    file=$1
+    unlink $HOME/$file
+    echo -e "Making symlink: ~/dotfiles/${file} -> ~/${file}"
+    ln -s $HOME/dotfiles/$file $HOME/$file
+  }
+
+  symlink ".bash"
+  symlink ".bash_profile"
+  symlink ".bashrc"
+  symlink ".tmux"
+  symlink ".tmux.conf"
+  symlink ".vim"
+  symlink ".vim/.backup"
+)

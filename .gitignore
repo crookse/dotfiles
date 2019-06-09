@@ -8,8 +8,11 @@ hidden/*
 .vim/spell/*
 
 # Files
+.bash_profile
+.bashrc
 .shellrc.load
 .tmux.conf
+.tmux/theme.sh
 tags
 tmux-last
 vimrc

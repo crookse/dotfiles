@@ -1,0 +1,766 @@
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - REQUIRED SETTINGS ////////////////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+set shellcmdflag=-ic
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - PLUGINS //////////////////////////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+" Set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" Alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+Plugin 'VundleVim/Vundle.vim'              " Let Vundle manage Vundle, required
+Plugin 'airblade/vim-gitgutter'            " Git plugin to indicate lines with changes
+Plugin 'crookse/vim-airline-themes'        " (forked) Airline Themes
+Plugin 'crookse/vim-crookse'               " 'crookse' vim additions
+Plugin 'ctrlpvim/ctrlp.vim'                " CtrlP Fuzzy Finder
+Plugin 'danro/rename.vim'                  " Rename a buffer within Vim and on the disk
+Plugin 'mileszs/ack.vim'                   " ack.vim. Note: that this requires ack (`brew install ack`)
+Plugin 'scrooloose/nerdTree'               " NERDTree plugin
+Plugin 'scrooloose/nerdcommenter'          " NERD Commenter NERD Commenter
+Plugin 'scrooloose/syntastic'              " syntastic linter
+Plugin 'shawncplus/phpcomplete.vim'        " phpcomplete for improved omni-completion in PHP. Use <C-x><C-o>
+Plugin 'sheerun/vim-polyglot'              " A solid language pack for Vim
+Plugin 'tpope/tpope-vim-abolish'           " Do things to a word
+Plugin 'tpope/vim-fugitive'                " Git plugin to allow branch info to show
+Plugin 'tpope/vim-obsession'               " vim-obsession to make Session.vim better
+Plugin 'tpope/vim-surround'                " vim-surround to work with HTML, XML, etc.
+Plugin 'tpope/vim-unimpaired'              " vim-unimpaired to quickly toggle and navigate
+Plugin 'vim-airline/vim-airline'           " Airline (alternate vim-only version deprecated vim-powerline)
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+" Plugin 'tpope/vim-fugitive'
+" " plugin from http://vim-scripts.org/vim/scripts.html
+" Plugin 'L9'
+" " Git plugin not hosted on GitHub
+" Plugin 'git://git.wincent.com/command-t.git'
+" " git repos on your local machine (i.e. when working on your own plugin)
+" Plugin 'file:///home/gmarik/path/to/plugin'
+" " The sparkup vim script is in a subdirectory of this repo called vim.
+" " Pass the path to set the runtimepath properly.
+" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" " Avoid a name conflict with L9
+" Plugin 'user/L9', {'name': 'newL9'}
+"
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+
+" filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+filetype plugin on
+
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just
+" :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to
+" auto-approve removal
+
+" See :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - SETTINGS /////////////////////////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+set rtp+=~/.vim/bundle/vim-crookse
+
+" set t_Co=16
+" iTerm2 Background: #0a1017
+" set t_Co=256
+
+" Allow vim's own fuzzy find to work
+set path+=**
+
+" Allow background color changes to also work in tmux
+" if &term =~ '256color'
+"     set t_ut=
+" endif
+
+" Enable syntax highlighting
+syntax on
+
+" Set python syntax highlighting to highest level
+let python_highlight_all=1
+
+" Setup colors
+
+" Centralize backups, swapfiles and undo history
+set backupdir=~/.vim/backups
+set noswapfile
+" set directory=~/.vim/swaps
+if exists("&undodir")
+	set undodir=~/.vim/undo
+endif
+
+" Make default clipboard the OS X clipboard (and unnamedplus for Linux)
+set clipboard=unnamed,unnamedplus
+
+" Enable the mouse
+set mouse=a
+if has("mouse_sgr")
+	" enable resizing splits with mouse in tmux
+	set ttymouse=sgr
+elseif &term =~ '^screen'
+	" tmux knows the extended mouse mode
+	set ttymouse=xterm2
+endif
+
+" Enable line numbers
+set number
+
+" Always show status line
+set laststatus=2
+
+" Disable error bells
+set noerrorbells
+
+" Show the line number relative to the current line
+set norelativenumber
+
+" Show the cursor position
+set ruler
+
+" Highlight the cursor line by default
+set cursorline
+
+" Allow deletion of existing characters in insert mode
+set backspace=2
+
+" Show the filename in the window titlebar
+
+" Start scrolling three lines before the horizontal window border
+set scrolloff=3
+
+" Highlight matching pairs as you type: (), [], {}
+set showmatch
+
+" Set horizontal splitting to below
+set splitbelow
+
+" Set vertical splitting to the right
+" set splitright
+
+" Search-as-you-type
+set incsearch
+
+" Case-insensitive searching
+set ignorecase
+
+" Case-sensitive if expression contains a capital letter
+set smartcase
+
+" Use highlighting for search matches (:nohlsearch to clear [or :noh])
+set hlsearch
+
+" Set the whitespace characters (eol, extends, precedes, nbsp, tab, trail)
+set list
+" set listchars=tab:▸\ ,trail:set list
+set listchars=tab:▸-,trail:~,extends:>,precedes:<,space:·
+
+" Set tabstop to 4 spaces
+set tabstop=4
+
+" Set the default actual tab key to 4 spaces
+set softtabstop=4
+
+" Set tab width to 4 spaces
+" set shiftwidth=4
+
+" Expand tabs into spaces
+" set expandtab
+
+" Set minimum window width to 88 (a.k.a. 'wiw')
+set winwidth=88
+
+filetype plugin indent on
+
+" Start file with open folds
+set nofoldenable
+
+" Toggle folds open/closed with space bar (ignore errors)
+nnoremap <silent> <Space> :silent! normal! za<CR>
+
+" Make omnicompletion better by selecting highlighted with Enter
+set completeopt=longest,menuone
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Enable ability to load man pages in Vim (with ":Man")
+runtime! ftplugin/man.vim
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - SETTINGS - GVIM //////////////////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+" Prevent blinking cursor
+set guicursor+=a:blinkon0
+
+" Make cursor shape an underline
+set guicursor+=a:hor10
+
+" Hide scrollbars
+set guioptions-=r
+set guioptions-=L
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - FILE SPECIFIC SETTINGS ///////////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+" To force hard tabs, set noexpandtab and don't set softtabstop
+"   tabstop and shiftwidth should be set to the same value
+" To force spaces instead of tabs, set expandtab and softtabstop
+"   shiftwidth and softtabstop should be set to the same value
+
+augroup filetypeSpecific
+	autocmd!
+	autocmd FileType apache         setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4
+	autocmd FileType conf           setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+	autocmd FileType crontab        setlocal nobackup nowritebackup
+	autocmd FileType css            setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4 textwidth=100     colorcolumn=101
+	autocmd FileType hbs            setlocal noexpandtab tabstop=4 shiftwidth=4
+	autocmd FileType help           setlocal nonumber
+	autocmd FileType html           setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=0 textwidth=0
+	autocmd FileType html.mustache  setlocal noexpandtab tabstop=4 shiftwidth=4               textwidth=0 wrapmargin=0
+	autocmd FileType html.twig      setlocal noexpandtab tabstop=4 shiftwidth=4               textwidth=0
+	autocmd FileType htmldjango     setlocal noexpandtab           shiftwidth=2               textwidth=0
+	autocmd FileType jade           setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4 textwidth=0
+	autocmd FileType javascript     setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2 textwidth=100     colorcolumn=101
+	autocmd FileType javascript.jsx setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2                   colorcolumn=101
+	autocmd FileType json           setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2
+	autocmd FileType markdown       setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2
+	autocmd FileType nginx          setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4
+	autocmd FileType php            setlocal noexpandtab tabstop=4 shiftwidth=4                                 colorcolumn=101 foldmethod=manual
+	autocmd FileType pug            setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4 textwidth=0 wrapmargin=0
+	autocmd FileType python         setlocal expandtab   tabstop=8 shiftwidth=4 softtabstop=4
+	autocmd FileType scss           setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4
+	autocmd FileType sh             setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2                   colorcolumn=101
+	autocmd FileType vim            setlocal noexpandtab tabstop=4 shiftwidth=4               textwidth=100 wrapmargin=0 colorcolumn=101 foldmethod=marker
+	autocmd FileType xml            setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+augroup END
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - KEY MAPPINGS /////////////////////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+"---------------------------------------------------------------------------------------------------
+" Key Mappings > Setup the leader keys
+"---------------------------------------------------------------------------------------------------
+
+let mapleader=","       " Change <Leader> to ',' (comma)
+let maplocalleader="\\" " Change <LocalLeader> to '\' (backslash)
+
+"---------------------------------------------------------------------------------------------------
+" Key Mappings > vimrc
+"---------------------------------------------------------------------------------------------------
+
+" Edit vimrc (opens in new tabe)
+noremap <Leader>ve :tabe $MYVIMRC<CR>
+" Source vimrc
+nnoremap <silent> <Leader>vs :source $MYVIMRC<CR>:noh<CR>:AirlineRefresh<CR>:echo 'vimrc config file reset!'<CR>
+
+"---------------------------------------------------------------------------------------------------
+" Key Mappings > Key Testing (for testing purposes when making new key mappings)
+"---------------------------------------------------------------------------------------------------
+
+" Press [Alt]+w to test
+" noremap ∑ :echo 'Current time is ' . strftime('%c')<CR>
+" let w:test = {}
+" let w:test = 'hello'
+" echo w:test
+noremap ∑ :echo w:test<CR> 
+
+"---------------------------------------------------------------------------------------------------
+" Key Mappings > Function Keys
+"---------------------------------------------------------------------------------------------------
+
+" QUIT ALL OF THE THINGS..HARD!
+noremap <F4> :qa!<CR>
+" Echo highlight groups
+noremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+	\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+	\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+" function! crookse_define_list(rangeStart, rangeEnd, ...)
+"     :for i in range(1,10) | put ='192.168.0.'.i | endfor
+" endfunction
+" Spellcheck
+noremap <F7> :set spell!<CR>
+
+"---------------------------------------------------------------------------------------------------
+" Key Mappings > Register
+"---------------------------------------------------------------------------------------------------
+
+" Access the register
+noremap <LocalLeader>rr :register<CR>
+" Black hole register: Start
+noremap <LocalLeader>rb "_<ESC>
+" Black hole register: delete entire line
+noremap - "_dd<ESC>
+
+"---------------------------------------------------------------------------------------------------
+" Key Mappings > Man Pages
+"---------------------------------------------------------------------------------------------------
+
+nnoremap <LocalLeader>mp :tabe<CR>:Man 
+
+"---------------------------------------------------------------------------------------------------
+" Key Mappings > Obsession
+"---------------------------------------------------------------------------------------------------
+
+" Track (or pause if currently tracking) the VIM session
+noremap <LocalLeader>os :Obsession<CR>
+
+"---------------------------------------------------------------------------------------------------
+" Key Mappings > Working with code
+"---------------------------------------------------------------------------------------------------
+
+" Alt+j = Move line down
+nnoremap <silent> ∆ :m .+1<CR>==
+" Alt+k = Move line up
+nnoremap <silent> ˚ :m .-2<CR>==
+" Alt+j = Move line down
+inoremap <silent> ∆ <Esc>:m .+1<CR>==gi
+" Alt+j = Move line up
+inoremap <silent> ˚ <Esc>:m .-2<CR>==gi
+" Alt+j = Move line down
+vnoremap <silent> ∆ :m '>+1<CR>gv=gv
+" Alt+j = Move line up
+vnoremap <silent> ˚ :m '<-2<CR>gv=gv
+
+nnoremap <C-f> <ESC>
+
+"---------------------------------------------------------------------------------------------------
+" Key Mappings > Highlight blocks of code
+"---------------------------------------------------------------------------------------------------
+
+nnoremap <C-f>h m[$%<S-V>%
+vnoremap <C-f>h <Esc>`[
+
+"---------------------------------------------------------------------------------------------------
+" Navigate through functions
+"---------------------------------------------------------------------------------------------------
+
+nnoremap <C-f>s ?function\s<CR>:nohlsearch<CR>
+nnoremap <C-f>e ?function\s<CR>$%$:nohlsearch<CR>
+nnoremap <C-f>n /function\s<CR>:nohlsearch<CR>zz
+nnoremap <C-f>p ?function\s<CR>:nohlsearch<CR>zz
+
+"---------------------------------------------------------------------------------------------------
+" Key Mappings > Window navigation
+"---------------------------------------------------------------------------------------------------
+
+" Go to window: left
+noremap <C-h> <C-w>h
+" Go to window: bottom (down)
+noremap <C-j> <C-w>j
+" Go to window: top (up)
+noremap <C-k> <C-w>k
+" Go to window: right
+noremap <C-l> <C-w>l
+" Split window horizontally
+nnoremap <C-w><C-h> :split<CR>
+" Split window vertically
+nnoremap <C-w><C-v> :vsplit<CR>
+
+"---------------------------------------------------------------------------------------------------
+" Key Mappings > General mappings
+"---------------------------------------------------------------------------------------------------
+
+" Avoid accidentally triggering the help when reaching for Escape
+inoremap <F1> <ESC>
+" Avoid accidentally triggering the help when reaching for Escape
+nnoremap <F1> <ESC>
+" Avoid accidentally triggering the help when reaching for Escape
+vnoremap <F1> <ESC>
+" Return key (on keyboard not keypad)
+nnoremap <CR> gg
+vnoremap <CR> gg
+" Save (write)
+nnoremap <Leader>s :w<CR>
+" Quit
+nnoremap <silent> <Leader>q :echo "Closed file:" expand('%:p')<CR>:q<CR>
+" Reload file
+nnoremap <Leader>e :e!<CR>
+" Remap
+nnoremap <Leader>E :tabdo windo e!<CR>
+" Make 'Y' copy from cursor location to end of line
+noremap Y y$
+" Copy all lines in the current file
+noremap <LocalLeader><C-a> :%y+<CR>
+" Make / easier to get to
+nnoremap ; /
+" Escape
+inoremap ii <ESC>
+" Toggle paste mode (retains incoming formatting)
+noremap <silent> <F2> :set paste!<CR>
+" Scroll up without moving cursor
+nnoremap <C-e> <C-e>
+" nnoremap <C-e> <C-e><Down>
+" Scroll down without moving cursor
+nnoremap <C-y> <C-y>
+" nnoremap <C-y> <C-y><Up>
+" Toggle cursorbind
+noremap <LocalLeader>cb :set cursorbind!<CR>
+" Toggle cursorcolumn
+nnoremap <LocalLeader>cc :set cursorcolumn!<CR>
+" Yea....
+noremap <LocalLeader>pl O<ESC><C-w>l0v$<left>y<C-w>hp<down>
+nnoremap <LocalLeader><Space> :execute "normal! i "<CR> :execute "normal! li "<CR>
+" Toggle noeol binary in current file
+noremap <LocalLeader>flt :set noeol binary!<CR>
+" Set noeol binary in current file
+noremap <LocalLeader>fll :set noeol binary<CR>
+noremap <LocalLeader>fls :set noeol binary<CR>:w<CR>
+
+"---------------------------------------------------------------------------------------------------
+" Key Mappings > Git
+"---------------------------------------------------------------------------------------------------
+
+" Run :Gblame
+nnoremap <silent> <LocalLeader>gb :Gblame<CR>
+" Run :Glog
+nnoremap <silent> <LocalLeader>gl :Glog<CR>
+
+"---------------------------------------------------------------------------------------------------
+" Key Mappings > Searching
+"---------------------------------------------------------------------------------------------------
+
+" * will search word under cursor, but won't immediately jump to first match
+nnoremap * :keepjumps normal! mi*`i<CR>
+
+" Turn off highlighting of search
+nnoremap <silent> <C-n> :nohlsearch<CR>
+
+" Search in PHP files
+command! -nargs=+ Pgrep grep -rn --include={*.php,} <args>
+
+" Search in all files
+command! -nargs=+ Agrep grep -rn <args>
+
+" Run ctags specifically for php
+nnoremap <Leader>ctp :silent !ctags -R --fields=+laimS --languages=php .<CR>:redraw!<CR>
+
+" Run ctags specifically for python
+nnoremap <Leader>cty :silent !ctags -R --fields=+laimS --languages=python .<CR>:redraw!<CR>
+
+" Switch to previously active tab with <Leader>l
+let g:lasttab = 1
+nnoremap <Leader>l :exe "tabn ".g:lasttab<CR>
+augroup tabLeave
+	autocmd!
+	autocmd TabLeave * let g:lasttab = tabpagenr()
+augroup END
+" Go to the last tab
+nnoremap <silent> <Leader>L :tabl<CR>
+
+" Close a whole tab, no matter how many windows are in it
+nnoremap <silent> <Leader>C :tabc<CR>
+
+" Save a file that requires `sudo` after already editing it
+cnoremap w!! w !sudo tee % >/dev/null
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - MACROS ///////////////////////////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+" Change end-of-line digits (default is to add)
+call setreg('d', 's/\d\+$/\=submatch(0)+')
+
+" Example of how to save a macro
+" let @q = ''
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - FUNCTIONS ////////////////////////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+" Indent first instance of '=' to specified column. Allows optional second
+" parameter to specify a pattern other than '='. Patterns are case-sensitive.
+"
+" Example: `:call AJIndent(30, ':')` with cursor on the desired line
+" Note: Also works on blocks of text in Visual mode
+function! AJIndent(indent_column, ...)
+	" If a pattern was specified, use it, otherwise use '='
+	" (Uses ternary if-then-else expression; see `:help E109` for details.)
+	let s:pattern = (a:0 > 0) ? a:1 : '='
+	" Define string of spaces that should replace a tab
+	let s:tab_to_space = repeat(' ', &tabstop)
+	" Get the current line with spaces subsituted for tabs
+	let s:line = substitute(getline(line('.')), '\t', s:tab_to_space, 'g')
+	" Check if the pattern appears on this line
+	let s:match_found = match(s:line, '\C' . s:pattern) + 1
+	if s:match_found <= 0
+		return
+	endif
+	" Check if the pattern appears before the specified indent column
+	let s:match_locations = matchstrpos(s:line, '\C^.*' . s:pattern)
+	if s:match_locations[2] >= a:indent_column
+		" If so, make sure that only whitespace would be removed
+		let s:between = matchstrpos(s:line, '\C\S\=\s*'. s:pattern)
+		if s:between[1] + 1 >= a:indent_column
+			echohl WarningMsg
+			echom 'Line ' . line('.') .
+					\ ': Not enough whitespace before pattern occurs;' .
+					\ ' min column: ' . string(s:between[1] + 2)
+			echohl None
+			return
+		endif
+	endif
+	" Perform the adding of spaces and subsequent removal of any excess
+	execute 'normal! ' . s:match_found . '|' .
+			\ a:indent_column . 'i ' .
+			\ a:indent_column . '|dw'
+endfunction
+" Map this function to <Leader>i
+nnoremap <Leader>i :call AJIndent()<Left>
+vnoremap <Leader>i :call AJIndent()<Left>
+
+" Move current line to be a nice reading height from top of window
+function! ReadingHeight()
+	execute "normal! zt" . float2nr(winheight(0)/8.0) . ""
+endfunction
+" Have z. put the screen up at a nice reading level
+nnoremap <silent> z. :call ReadingHeight()<CR>
+
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - PLUGIN SETTINGS - ACK ////////////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+" Also see The_Silver_Searcher settings
+" Start an Ack search
+nnoremap <Leader>a :silent! Ack!<Space>'
+
+" Start an Ack search in a new tab
+nnoremap <Leader>A :tabe<CR>:silent! Ack<Space>'
+
+" Modify default mappings to open result in middle of the screen
+let g:ack_mappings = {
+      \ "t": "<C-W><CR><C-W>Tzz",
+      \ "T": "<C-W><CR><C-W>TzzgT<C-W>j",
+      \ "o": "<CR>zz",
+      \ "O": "<CR>zz<C-W><C-W>:ccl<CR>zz",
+      \ "go": "<CR>zz<C-W>j",
+      \ "h": "<C-W><CR>zz<C-W>K",
+      \ "H": "<C-W><CR>zz<C-W>K<C-W>b",
+	  \ "v":  "<C-W><CR>zz<C-W>L<C-W>p<C-W>J<C-W>p",
+	  \ "gv": "<C-W><CR>zz<C-W>L<C-W>p<C-W>J" }
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - PLUGIN SETTINGS - AIRLINE ////////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'powerlineish'
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#whitespace#mixed_indent_algo = 2
+let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing', 'mixed-indent-file' ]
+
+" to use fancy symbols for airline, uncomment the following lines and use a
+" patched font (more info on the README.rst)
+if !exists('g:airline_symbols')
+	let g:airline_symbols = {}
+endif
+let g:airline_left_sep = '⮀'
+let g:airline_left_alt_sep = '⮁'
+let g:airline_right_sep = '⮂'
+let g:airline_right_alt_sep = '⮃'
+let g:airline_symbols.branch = '⭠'
+let g:airline_symbols.readonly = '⭤'
+let g:airline_symbols.linenr = '⭡'
+let g:airline_symbols.maxlinenr = '☰'
+" }}}
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - PLUGIN SETTINGS - CTRL P /////////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+" Also see The_Silver_Searcher settings
+" Note: Refresh cache with <F5>
+let g:ctrlp_by_filename = 0
+let g:ctrlp_extensions = ['autoignore']
+let g:ctrlp_map = ''
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:30'
+" let g:ctrlp_open_new_file = 'h'
+let g:ctrlp_regexp = 1
+" let g:ctrlp_show_hidden = 1
+nnoremap <silent> <Leader>b :CtrlPBuffer<CR>
+nnoremap <silent> <Leader>t :CtrlP<CR>
+nnoremap <silent> <Leader>T :CtrlPTag<CR>
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - PLUGIN SETTINGS - FUGITIVE ///////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+augroup fugitiveBuffers
+	autocmd!
+	autocmd BufReadPost fugitive://* set bufhidden=delete
+augroup END
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - PLUGIN SETTINGS - NERD ///////////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+let g:NERDSpaceDelims=1
+let g:NERDTrimTrailingWhitespace=1
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - PLUGIN SETTINGS - NERDTREE ///////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+" Toggle NERDTree display
+nnoremap <silent> <Leader>d :NERDTreeToggle<CR>
+" Open NERDTree with the current file selected
+nnoremap <silent> <Leader>f :NERDTreeFind<CR>
+
+" Show hidden files by default
+let NERDTreeShowHidden=1
+
+" Don't show these file types
+let g:NERDTreeIgnore = ['\.pyc$', '\.pyo$']
+
+let g:NERDTreeWinSize = 60
+let g:NERDTreeDirArrows = 1
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - PLUGIN SETTINGS - PHP AUTOFOLD ///////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+" Don't autofold
+let g:DisableAutoPHPFolding = 1
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - PLUGIN SETTINGS - PYMODE /////////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+" Ignore lines that are too long
+let g:pymode_lint_ignore = 'E501'
+
+" Set debug breakpoints
+let g:pymode_breakpoint_bind = '<Leader>B'
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - PLUGIN SETTINGS - SYNTASTIC //////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_mode_map = {
+	\ 'mode': 'active',
+	\ 'passive_filetypes': ['python', 'html']}
+let g:syntastic_html_tidy_ignore_errors = [
+	\  '<html> attribute "lang" lacks value',
+	\  '<a> attribute "href" lacks value',
+	\  'trimming empty <span>',
+	\  'trimming empty <h1>',
+	\  '<div> attribute "{{^" lacks value',
+	\  '<div> attribute "}}" lacks value',
+	\  '<div> attribute "{{/" lacks value',
+	\ ]
+let g:syntastic_javascript_checkers = ['jsxhint']
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - PLUGIN SETTINGS - SILVER SEARCHER ////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+if executable('ag')
+	" Use Ag over Grep
+	set grepprg=ag\ --nogroup\ --nocolor
+
+	" Use Ag over Ack
+	let g:ackprg = 'ag --vimgrep'
+
+	" Use ag in CtrlP for listing files. Lightning fast and respects
+	" .gitignore
+	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+	" ag is fast enough that CtrlP doesn't need to cache
+	let g:ctrlp_use_caching = 0
+endif
+" }}}
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - PLUGIN SETTINGS - VIM MUSTACHE ///////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+let g:mustache_abbreviations = 1
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - MISC - PHP SYNTAX OVERRIDES //////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+" This appears out of alphabetical order to ensure no interference
+function! PhpSyntaxOverride()
+	hi! def link phpDocTags  phpDefine
+	hi! def link phpDocParam phpType
+endfunction
+
+augroup phpSyntaxOverride
+	autocmd!
+	autocmd FileType php call PhpSyntaxOverride()
+augroup END
+
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+"// FILE MARKER - MISC - VIM TABLINE ///////////////////////////////////////////////////////////////
+"///////////////////////////////////////////////////////////////////////////////////////////////////
+
+" Vim Tabline Settings
+if exists("+showtabline")
+	function! MyTabLine()
+		let s = ''
+		let t = tabpagenr()
+		let i = 1
+		let w = winnr()
+		while i <= tabpagenr('$')
+			let buflist = tabpagebuflist(i)
+			let winnr = tabpagewinnr(i)
+			let s .= '%' . i . 'T'
+			let s .= '%#TabLineUnselected#'
+			" Ensure we're highlighting correctly. The last tabe should be the
+			" only tab that uses TabLine after
+			let s .= (i == t ? '%#TabLineSelected# ' : ' ')
+			let s .= i
+			let s .= (i == t ? ' ' : ' ')
+			let file = bufname(buflist[winnr - 1])
+			let file = pathshorten(file)
+			" let file = fnamemodify(file, ':p:t')
+			if file == ''
+				let file = '[No Name]'
+			endif
+			let s .= (file)
+			if ((i+1) == t)
+				let s .= (i == t ? ' ' : ' %#TabLine# ')
+			else
+				let s .= ' %#TabLine# '
+			endif
+			" Increment the tab number
+			let i = i + 1
+		endwhile
+		" Fill up the rest of the tab line
+		let s .= '%T%#TabLineFill#%='
+		" The below line is the close button. Add the close character after
+		" the 999X
+		let s .= (tabpagenr('$') > 1 ? '%999X' : 'X')
+		return s
+	endfunction
+	set stal=2
+	set tabline=%!MyTabLine()
+endif

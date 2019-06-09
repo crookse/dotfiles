@@ -1,0 +1,129 @@
+#!/bin/bash
+#
+# Load/process all logic in this file for the shells
+
+#///////////////////////////////////////////////////////////////////////////////////////////////////
+#// FILE MARKER - INITIAL SETTINGS /////////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////////////////////////////////////////////
+
+echo_shellrc() {
+  echo "[shellrc] $1"
+}
+
+bind "set completion-ignore-case on"   # Allow use of [Tab] to autocomplete file paths without considering letter case
+
+export CLICOLOR=1                      # Enable color output
+export LSCOLORS=excxFxFxBxxfxfxBxBxexe # Set directory colors
+export EDITOR='vim'
+
+if [ $__CROOKSE_ENV_VAR__PATH_OG_SET ]; then
+  echo_shellrc "PATH has already been set."
+else
+  echo_shellrc "__CROOKSE_ENV_VAR__PATH_OG is empty. Setting now..."
+  __CROOKSE_ENV_VAR__PATH_OG_SET=1
+  __CROOKSE_ENV_VAR__PATH_OG=$PATH
+  __CROOKSE_ENV_VAR__PATH_USER_DEFINED=/usr/local/bin:/usr/local/opt/mysql@5.7/bin:$HOME/bin:$HOME/.composer/vendor/bin
+fi
+echo_shellrc "__CROOKSE_ENV_VAR__PATH_OG = $__CROOKSE_ENV_VAR__PATH_OG"
+echo_shellrc "__CROOKSE_ENV_VAR__PATH_USER_DEFINED = $__CROOKSE_ENV_VAR__PATH_USER_DEFINED"
+export PATH=$__CROOKSE_ENV_VAR__PATH_USER_DEFINED:$__CROOKSE_ENV_VAR__PATH_OG
+echo_shellrc "PATH = $PATH"
+
+echo_shellrc "TERM = $TERM"
+
+#///////////////////////////////////////////////////////////////////////////////////////////////////
+#// FILE MARKER - VARIABLES ////////////////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////////////////////////////////////////////
+#
+# Set the root .dotfiles directory based on the $HOME environment variable.
+#
+
+# Required variables
+# Nothing here yet
+
+# Your variables
+# Nothing here yet
+
+#///////////////////////////////////////////////////////////////////////////////////////////////////
+#// FILE MARKER - INCLUDES /////////////////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////////////////////////////////////////////
+#
+# Source files in the specified directories. Files are sourced alphabetically.
+#
+
+# Include files in the .bash directory
+for file in $(gls ~/.bash); do
+  echo_shellrc "Executing $file"
+  source ~/.bash/$file
+done
+
+#///////////////////////////////////////////////////////////////////////////////////////////////////
+#// FILE MARKER - PROMPTS //////////////////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////////////////////////////////////////////
+#
+# Export prompt variables
+#
+
+# Example output:
+#
+#    git: (feature/hello-world)
+#    dir: /var/www/hello-world
+#    sys: Linux:user@local.mpb
+#    cmd:
+# 
+export PS1='$(__crookse_check_if_git)
+dir: $(tput setaf 82)\w$(tput sgr0)
+sys: $(uname):$(tput setaf 238)${USER}$(tput sgr0)@$(hostname)
+cmd: '
+
+#///////////////////////////////////////////////////////////////////////////////////////////////////
+#// ALIASES ////////////////////////////////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////////////////////////////////////////////
+#
+# Define session aliases. Some aliases use functions. Define those functions
+# below and before the aliases.
+#
+
+unalias -a # Ensure that the only aliases that ever get set are the ones defined below
+
+## FUNCTION ####################################################################
+#
+# Add a spacer to the mac OS Dock.
+#
+__crookse_macdock_add_spacer() {
+  defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'
+}
+
+alias MOAB='moab'
+alias ll='gls -lap --group-directories-first --color=auto'
+alias macos.dock.add.spacer='__crookse_macdock_add_spacer'
+alias macos.files.hidden.off='defaults write com.apple.finder AppleShowAllFiles -bool FALSE && killall Finder'
+alias macos.files.hidden.on='defaults write com.apple.finder AppleShowAllFiles -bool TRUE && killall Finder'
+alias moab='source ~/.dotfiles/.shellrc.load'
+alias rm.r.dsstore='for file in $(find . | grep .DS_Store); do rm -i $file; done'
+
+# Tmux
+alias tmux='tmux -2'
+alias tmux.boot='tmux new -s 0'
+alias tmux.open='tmux attach -t 0'
+
+# Vim
+alias vi='mvim -v' # Let's not start vi
+alias vim='mvim -v'
+alias vim.o='vim'
+
+# Software Development
+## MySQL
+alias mysql='mysql --user=root --password=root'
+## Package Managers
+### Composer
+alias composer='php /usr/local/bin/composer.phar'
+## PHP
+### Laravel
+alias artisan='php artisan'
+
+#///////////////////////////////////////////////////////////////////////////////////////////////////
+#// FILE MARKER - OUTPUT MESSAGE ///////////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////////////////////////////////////////////
+
+echo -e "Your .shellrc.load file was loaded!"
