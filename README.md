@@ -15,13 +15,14 @@ Install dotfiles, Vim, and tmux
 ```
 brew install vim
 brew install tmux
-git clone https://github.com/crookse/dotfiles.git ~/var/src/dotfiles
-ln -s ~/usr/local/dotfiles ~/dotfiles
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+mkdir /var/src
+git clone https://github.com/crookse/dotfiles.git /var/src/dotfiles
+ln -s /var/src/dotfiles ~/dotfiles
 ```
 
-### Step 2: Make symlinks from `~/dotfiles` to `~/` (e.g., `~/dotfiles/.vim ~/.vim`)
+### Step 2: Make symlinks to dotfiles
+
+_Symlinks will be created from `~/dotfiles` to `~/` (e.g., `~/dotfiles/.vim ~/.vim`)_
 
 ```
 ~/dotfiles/dotfiles
@@ -29,26 +30,38 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 ### Step 3: Set up Vim
 
-Open Vim ...
+Install Vim's plugin manager (I use Vundle) ...
+
+```
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+```
+
+... open Vim ...
 
 ```
 vim
 ```
 
-... and install its plugins by typing `:PluginInstall`.
+... and install all plugins listed in `~/.vim/vimrc` by typing `:PluginInstall`.
 
 ### Step 4: Install Menlo-ForPowerline font
 
-Install the Menlo-ForPowerline font. Font file is located at `~/dotfiles/assets/fonts/Menlo-ForPowerline.ttc`. On macOS, just double-click the `.ttc` file.
+Install the Menlo-ForPowerline font. The font file is located at `~/dotfiles/assets/fonts/Menlo-ForPowerline.ttc`. On macOS, just double-click the font file.
 
 ### Step 5: Set up tmux
 
-Open tmux ...
+Install tmux's plugin manager ...
+
+```
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+... open tmux ...
 
 ```
 tmux
 ```
 
-... and install its plugins ...
+... and install all plugins listed in the `~/.tmux/plugins` directory ...
 
 `Ctrl+s` + `I`
