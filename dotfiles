@@ -14,5 +14,5 @@
   symlink ".tmux"
   symlink ".tmux.conf"
   symlink ".vim"
-  symlink ".vim/.backup"
+  symlink ".vim/.backups"
 )
