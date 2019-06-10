@@ -10,9 +10,23 @@ This repo contains dotfiles (e.g., `.somefile`) for a development environment se
 
 I use MacVim to easily solve the clipboard issues in tmux and split screen resizing issues in Vim.
 
+These instructions assume you are using macOS.
+
 ## Installation
 
-### Step 1: Install dotfiles, MacVim, and tmux
+### Step 1: Install iTerm2
+
+[https://www.iterm2.com/](https://www.iterm2.com/)
+
+### Step 2: (optional) Set up iTerm2 color preset
+
+* Open iTerm2 and press `cmd` + `,` to open the Preferences.
+* Go to Profiles > Colors.
+* In the bottom right corner, open the "Color Presets..." dropdown menu and select the "Import..." option.
+* Navigate to `~/dotfiles/assets/itermcolors` and select `crookse_glacier.itermcolors`.
+* Once `crookse_glacier` is imported, open the dropdown menu again and select `crookse_glacier`.
+
+### Step 3: Install dotfiles, MacVim, and tmux
 
 _This step uses [Homebrew](https://brew.sh/) to install MacVim and tmux_
 
@@ -24,7 +38,7 @@ brew install macvim
 brew install tmux
 ```
 
-### Step 2: Make symlinks to dotfiles and copies of sample files
+### Step 4: Make symlinks to dotfiles and copies of sample files
 
 _Symlinks will be created from `~/dotfiles` to `~/` (e.g., `~/dotfiles/.vim ~/.vim`)_
 
@@ -34,7 +48,7 @@ _Sample files will be used to create real files (e.g., `~/.bashrc.sample` to `~/
 ~/dotfiles/dotfiles
 ```
 
-### Step 3: Set up MacVim
+### Step 5: Set up MacVim
 
 Install MacVim's plugin manager (I use Vundle) ...
 
@@ -50,11 +64,11 @@ mvim -v
 
 ... and install all plugins listed in `~/.vim/vimrc` by typing `:PluginInstall`.
 
-### Step 4: Install Menlo-ForPowerline font
+### Step 6: Install Menlo-ForPowerline font
 
 Install the Menlo-ForPowerline font. The font file is located at `~/dotfiles/assets/fonts/Menlo-ForPowerline.ttc`. On macOS, just double-click the font file.
 
-### Step 5: Set up tmux
+### Step 7: Set up tmux
 
 Install tmux's plugin manager ...
 
