@@ -4,21 +4,21 @@
 
 This repo contains dotfiles (e.g., `.somefile`) for a development environment setup. It includes the following:
 
-* Vim configurations
+* MacVim configurations (these configurations also work for Vim)
 * tmux configurations
 * iTerm2 configurations
 
 ## Installation
 
-### Step 1: Install dotfiles, Vim, and tmux
+### Step 1: Install dotfiles, MacVim, and tmux
 
-_This step uses [Homebrew](https://brew.sh/) to install Vim and tmux_
+_This step uses [Homebrew](https://brew.sh/) to install MacVim and tmux_
 
 ```
 mkdir /var/src
 git clone https://github.com/crookse/dotfiles.git /var/src/dotfiles
 ln -s /var/src/dotfiles ~/dotfiles
-brew install vim
+brew install macvim
 brew install tmux
 ```
 
@@ -30,18 +30,18 @@ _Symlinks will be created from `~/dotfiles` to `~/` (e.g., `~/dotfiles/.vim ~/.v
 ~/dotfiles/dotfiles
 ```
 
-### Step 3: Set up Vim
+### Step 3: Set up MacVim
 
-Install Vim's plugin manager (I use Vundle) ...
+Install MacVim's plugin manager (I use Vundle) ...
 
 ```
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 ```
 
-... open Vim ...
+... open MacVim ...
 
 ```
-vim
+macvim -v
 ```
 
 ... and install all plugins listed in `~/.vim/vimrc` by typing `:PluginInstall`.
