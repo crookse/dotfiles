@@ -20,6 +20,8 @@ These instructions assume you are using macOS.
 
 ### Step 2: (optional) Set up iTerm2 color preset
 
+I like [Theme - Glacier](https://packagecontrol.io/packages/Theme%20-%20Glacier) from Sublime, so I made an iTerm2 color preset to kind of match the Glacier theme.
+
 * Open iTerm2 and press `cmd` + `,` to open the Preferences.
 * Go to Profiles > Colors.
 * In the bottom right corner, open the "Color Presets..." dropdown menu and select the "Import..." option.
