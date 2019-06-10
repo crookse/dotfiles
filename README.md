@@ -84,9 +84,4 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 tmux
 ```
 
-... and install all plugins listed in the `~/.tmux/plugins` directory ...
-
-_I have configured the tmux prefix to be `Ctrl+s`. The original prefix is `Ctrl+b`._
-
-`Ctrl+s` + `I`
-
+... and install all plugins listed in the `~/.tmux/plugins` directory by pressing `Ctrl+s` + `I`. I have configured the tmux prefix to be `Ctrl+s`. The original prefix is `Ctrl+b`.
