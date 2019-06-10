@@ -45,7 +45,7 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 ... open MacVim ...
 
 ```
-macvim -v
+mvim -v
 ```
 
 ... and install all plugins listed in `~/.vim/vimrc` by typing `:PluginInstall`.
