@@ -28,7 +28,7 @@ brew install tmux
 
 _Symlinks will be created from `~/dotfiles` to `~/` (e.g., `~/dotfiles/.vim ~/.vim`)_
 
-_Sample files will be used to create real files (e.g., `~/.bashrc.sample` to ``~/.bashrc)_
+_Sample files will be used to create real files (e.g., `~/.bashrc.sample` to `~/.bashrc`)_
 
 ```
 ~/dotfiles/dotfiles
