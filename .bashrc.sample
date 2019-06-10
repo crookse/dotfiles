@@ -3,39 +3,38 @@
 # Load/process all logic in this file for the shells
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////
-#// FILE MARKER - INITIAL SETTINGS /////////////////////////////////////////////////////////////////
+#// INITIAL SETTINGS ///////////////////////////////////////////////////////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////////////////////////
 
-echo_shellrc() {
-  echo "[shellrc] $1"
+function dotfiles_echo() {
+  echo -e "[.bashrc] ${1}"
 }
 
 bind "set completion-ignore-case on"   # Allow use of [Tab] to autocomplete file paths without considering letter case
 
 export CLICOLOR=1                      # Enable color output
 export LSCOLORS=excxFxFxBxxfxfxBxBxexe # Set directory colors
-export EDITOR='vim'
+export EDITOR='vim'                    # Set terminal editor to vim
+export TERM='xterm-256color'           # Support 256 colors
 
-if [ $__CROOKSE_ENV_VAR__PATH_OG_SET ]; then
-  echo_shellrc "PATH has already been set."
+if [ $__CROOKSE_ENV_VAR__PATH_SET ]; then
+  dotfiles_echo "PATH already set. Skipping."
 else
-  echo_shellrc "__CROOKSE_ENV_VAR__PATH_OG is empty. Setting now..."
-  __CROOKSE_ENV_VAR__PATH_OG_SET=1
-  __CROOKSE_ENV_VAR__PATH_OG=$PATH
-  __CROOKSE_ENV_VAR__PATH_USER_DEFINED=/usr/local/bin:/usr/local/opt/mysql@5.7/bin:$HOME/bin:$HOME/.composer/vendor/bin
+  export PATH=/usr/local/sbin:$PATH:$HOME/bin:$HOME/dotfiles:$HOME/.deno/bin
+  dotfiles_echo "Setting PATH... "
+  # Flag the PATH as "already set" to prevent appending the PATH to the PATH when this file realods.
+  __CROOKSE_ENV_VAR__PATH_SET=1
+  echo "    Done."
 fi
-echo_shellrc "__CROOKSE_ENV_VAR__PATH_OG = $__CROOKSE_ENV_VAR__PATH_OG"
-echo_shellrc "__CROOKSE_ENV_VAR__PATH_USER_DEFINED = $__CROOKSE_ENV_VAR__PATH_USER_DEFINED"
-export PATH=$__CROOKSE_ENV_VAR__PATH_USER_DEFINED:$__CROOKSE_ENV_VAR__PATH_OG
-echo_shellrc "PATH = $PATH"
 
-echo_shellrc "TERM = $TERM"
+dotfiles_echo "PATH is ${PATH}"
+dotfiles_echo "TERM is ${TERM}"
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////
-#// FILE MARKER - VARIABLES ////////////////////////////////////////////////////////////////////////
+#// VARIABLES //////////////////////////////////////////////////////////////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////////////////////////
 #
-# Set the root .dotfiles directory based on the $HOME environment variable.
+# Set the root dotfiles directory based on the $HOME environment variable.
 #
 
 # Required variables
@@ -45,32 +44,34 @@ echo_shellrc "TERM = $TERM"
 # Nothing here yet
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////
-#// FILE MARKER - INCLUDES /////////////////////////////////////////////////////////////////////////
+#// INCLUDES ///////////////////////////////////////////////////////////////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////////////////////////
 #
 # Source files in the specified directories. Files are sourced alphabetically.
 #
 
 # Include files in the .bash directory
-for file in $(gls ~/.bash); do
-  echo_shellrc "Executing $file"
+for file in $(ls ~/.bash); do
   source ~/.bash/$file
 done
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////
-#// FILE MARKER - PROMPTS //////////////////////////////////////////////////////////////////////////
+#// PROMPTS ////////////////////////////////////////////////////////////////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////////////////////////
 #
-# Export prompt variables
+# Example output when in git directory:
 #
-
-# Example output:
+#    git: (hello-world)
+#    dir: /some/path
+#    sys: Linux:someuser@local.mpb
+#    cmd: 
 #
-#    git: (feature/hello-world)
-#    dir: /var/www/hello-world
-#    sys: Linux:user@local.mpb
-#    cmd:
-# 
+# Example output in non-git directory:
+#
+#    dir: /some/path
+#    sys: Linux:someuser@local.mpb
+#    cmd: 
+#
 export PS1='$(__crookse_check_if_git)
 dir: $(tput setaf 82)\w$(tput sgr0)
 sys: $(uname):$(tput setaf 238)${USER}$(tput sgr0)@$(hostname)
@@ -84,23 +85,41 @@ cmd: '
 # below and before the aliases.
 #
 
-unalias -a # Ensure that the only aliases that ever get set are the ones defined below
+unalias -a # Make sure the only aliases that ever get set are the ones defined below
 
-## FUNCTION ####################################################################
 #
-# Add a spacer to the mac OS Dock.
+# Set machine-specific aliases in the file below
+#
+if [ -f ~/dotfiles/.hidden/aliases.sh ]; then
+  source ~/dotfiles/.hidden/aliases.sh
+fi
+
+#
+# Add a spacer to the macOS Dock
 #
 __crookse_macdock_add_spacer() {
   defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'
 }
 
+#
+# Blow up (restart) the currently active shell
+#
+__crookse_moab() {
+  source ~/dotfiles/.bash_profile
+}
+
+alias files.hidden.on='defaults write com.apple.finder AppleShowAllFiles -bool TRUE && killall Finder'
+alias files.hidden.off='defaults write com.apple.finder AppleShowAllFiles -bool FALSE && killall Finder'
+alias ll='ls -la'
+alias moab='__crookse_moab'
 alias MOAB='moab'
-alias ll='gls -lap --group-directories-first --color=auto'
-alias macos.dock.add.spacer='__crookse_macdock_add_spacer'
-alias macos.files.hidden.off='defaults write com.apple.finder AppleShowAllFiles -bool FALSE && killall Finder'
-alias macos.files.hidden.on='defaults write com.apple.finder AppleShowAllFiles -bool TRUE && killall Finder'
-alias moab='source ~/.dotfiles/.shellrc.load'
-alias rm.r.dsstore='for file in $(find . | grep .DS_Store); do rm -i $file; done'
+alias copy.etc.hosts='sudo cp ~/dotfiles/.hidden/etc/hosts /etc/hosts'
+alias rm.dsstore='for file in $(find . | grep .DS_Store); do rm -i $file; done'
+alias macdock.add.spacer='__crookse_macdock_add_spacer'
+
+# Package Managers
+## Composer
+alias composer='composer.phar'
 
 # Tmux
 alias tmux='tmux -2'
@@ -108,22 +127,14 @@ alias tmux.boot='tmux new -s 0'
 alias tmux.open='tmux attach -t 0'
 
 # Vim
-alias vi='mvim -v' # Let's not start vi
-alias vim='mvim -v'
-alias vim.o='vim'
+alias vi='mvim -v'  # Let's not start vi
+alias vim='mvim -v' # Let's not start vim either
 
-# Software Development
-## MySQL
-alias mysql='mysql --user=root --password=root'
-## Package Managers
-### Composer
-alias composer='php /usr/local/bin/composer.phar'
-## PHP
-### Laravel
-alias artisan='php artisan'
+#-------------------------------------------------------------------------------
+# Bash Profile
+#-------------------------------------------------------------------------------
+# 
+# Finally, output that .bash_profile has been executed
+# 
 
-#///////////////////////////////////////////////////////////////////////////////////////////////////
-#// FILE MARKER - OUTPUT MESSAGE ///////////////////////////////////////////////////////////////////
-#///////////////////////////////////////////////////////////////////////////////////////////////////
-
-echo -e "Your .shellrc.load file was loaded!"
+dotfiles_echo "Your .bashrc file was loaded!"
