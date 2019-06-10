@@ -1,6 +1,12 @@
 #!/bin/bash
 
 (
+
+  create_real_file() {
+    file=$1
+    cp -fi $HOME/dotfiles/$file.sample $HOME/$file
+  }
+
   symlink() {
     file=$1
     unlink $HOME/$file
@@ -15,4 +21,9 @@
   symlink ".tmux.conf"
   symlink ".vim"
   symlink ".vim/.backups"
+
+  create_real_file ".bashrc"
+  create_real_file ".bash_profile"
+  create_real_file ".tmux/theme.sh"
+
 )
