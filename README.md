@@ -8,6 +8,8 @@ This repo contains dotfiles (e.g., `.somefile`) for a development environment se
 * tmux configurations
 * iTerm2 configurations
 
+I use MacVim to easily solve the clipboard issues in tmux and split screen resizing issues in Vim.
+
 ## Installation
 
 ### Step 1: Install dotfiles, MacVim, and tmux
@@ -22,9 +24,10 @@ brew install macvim
 brew install tmux
 ```
 
-### Step 2: Make symlinks to dotfiles
+### Step 2: Make symlinks to dotfiles and copies of sample files
 
 _Symlinks will be created from `~/dotfiles` to `~/` (e.g., `~/dotfiles/.vim ~/.vim`)_
+_Sample files will be used to create real files (e.g., `~/.bashrc.sample` to ``~/.bashrc)_
 
 ```
 ~/dotfiles/dotfiles
