@@ -17,17 +17,23 @@ export LSCOLORS=excxFxFxBxxfxfxBxBxexe # Set directory colors
 export EDITOR='vim'                    # Set terminal editor to vim
 export TERM='xterm-256color'           # Support 256 colors
 
-if [ $__CROOKSE_ENV_VAR__PATH_SET ]; then
-  dotfiles_echo "PATH already set. Skipping."
+if [[ $__CROOKSE_ENV_VAR__PATH_SET == "path_set" ]]; then
+  dotfiles_echo "Same session. PATH already set. Skipping."
+elif [[ $__CROOKSE_ENV_VAR__PATH_SET == "path_full_reset" ]]; then
+  echo -n "[.bashrc] Same session. Resetting PATH..."
+  export PATH=$OG_PATH
+  export __CROOKSE_ENV_VAR__PATH_SET="path_set"
+  echo " Done."
 else
-  export PATH=/usr/local/sbin:$PATH:$HOME/bin:$HOME/dotfiles:$HOME/.deno/bin
-  dotfiles_echo "Setting PATH... "
+  echo -n "[.bashrc] New session. Setting PATH..."
+  export PATH=$PATH:$HOME/bin:$HOME/dotfiles
   # Flag the PATH as "already set" to prevent appending the PATH to the PATH when this file realods.
-  __CROOKSE_ENV_VAR__PATH_SET=1
-  echo "    Done."
+  export __CROOKSE_ENV_VAR__PATH_SET="path_set"
+  export OG_PATH=$PATH
+  echo " Done."
 fi
 
-dotfiles_echo "PATH is ${PATH}"
+dotfiles_echo "PATH is... \n  $(echo $PATH | sed -e $'s/:/\\\n  /g' | sort -r)"
 dotfiles_echo "TERM is ${TERM}"
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,13 +111,24 @@ __crookse_macdock_add_spacer() {
 # Blow up (restart) the currently active shell
 #
 __crookse_moab() {
-  source ~/dotfiles/.bash_profile
+  option="${1}"
+  case "${1}" in
+    "full-restart")
+      echo "[moab] FULL RESTART"
+      export __CROOKSE_ENV_VAR__PATH_SET="path_full_reset"
+      source ~/dotfiles/.bash_profile
+      ;;
+    *)
+      source ~/dotfiles/.bash_profile
+      ;;
+  esac
 }
 
 alias files.hidden.on='defaults write com.apple.finder AppleShowAllFiles -bool TRUE && killall Finder'
 alias files.hidden.off='defaults write com.apple.finder AppleShowAllFiles -bool FALSE && killall Finder'
 alias ll='ls -la'
 alias moab='__crookse_moab'
+alias moab.full-restart='__crookse_moab full-restart'
 alias MOAB='moab'
 alias copy.etc.hosts='sudo cp ~/dotfiles/.hidden/etc/hosts /etc/hosts'
 alias rm.dsstore='for file in $(find . | grep .DS_Store); do rm -i $file; done'
