@@ -1,13 +1,13 @@
 # Directories
-hidden/*
 !hidden/README.md
 .tmux/plugins/
 .tmux/resurrect/
 .vim/backups/*
 .vim/bundle/*
 .vim/spell/*
-assets/tmux-theme
 assets/iterm-profiles/*
+assets/tmux-theme
+hidden/*
 
 # Files
 .bash_profile
