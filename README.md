@@ -18,17 +18,7 @@ These instructions assume you are using macOS.
 
 [https://www.iterm2.com/](https://www.iterm2.com/)
 
-### Step 2: (optional) Set up iTerm2 color preset
-
-I like [Theme - Glacier](https://packagecontrol.io/packages/Theme%20-%20Glacier) from Sublime, so I made an iTerm2 color preset to kind of match the Glacier theme.
-
-* Open iTerm2 and press `cmd` + `,` to open the Preferences.
-* Go to Profiles > Colors.
-* In the bottom right corner, open the "Color Presets..." dropdown menu and select the "Import..." option.
-* Navigate to `~/dotfiles/assets/itermcolors` and select `crookse_glacier.itermcolors`.
-* Once `crookse_glacier` is imported, open the dropdown menu again and select `crookse_glacier`.
-
-### Step 3: Install dotfiles, MacVim, and tmux
+### Step 2: Install dotfiles, MacVim, and tmux
 
 _This step uses [Homebrew](https://brew.sh/) to install MacVim and tmux_
 
@@ -40,17 +30,35 @@ brew install macvim
 brew install tmux
 ```
 
-### Step 4: Make symlinks to dotfiles and copies of sample files
+### Step 3: Use Bash
 
-_Symlinks will be created from `~/dotfiles` to `~/` (e.g., `~/dotfiles/.vim ~/.vim`)_
+I make sure my default system shell is bash by running the following:
 
-_Sample files will be used to create real files (e.g., `~/.bashrc.sample` to `~/.bashrc`)_
+```
+chsh -s /bin/bash
+```
+
+### Step 4: (optional) Set up iTerm2 color preset
+
+I like [Theme - Glacier](https://packagecontrol.io/packages/Theme%20-%20Glacier) from Sublime, so I made an iTerm2 color preset to kind of match the Glacier theme.
+
+* Open iTerm2 and press `cmd` + `,` to open the Preferences.
+* Go to Profiles > Colors.
+* In the bottom right corner, open the "Color Presets..." dropdown menu and select the "Import..." option.
+* Navigate to `~/dotfiles/assets/itermcolors` and select `crookse_glacier.itermcolors`.
+* Once `crookse_glacier` is imported, open the dropdown menu again and select `crookse_glacier`.
+
+### Step 5: Make symlinks to dotfiles and copies of sample files
 
 ```
 ~/dotfiles/dotfiles
 ```
 
-### Step 5: Set up MacVim
+_Symlinks will be created from `~/dotfiles` to `~/` (e.g., `~/dotfiles/.vim ~/.vim`)_
+
+_Sample files will be used to create real files (e.g., `~/.bashrc.sample` to `~/.bashrc`)_
+
+### Step 6: Set up MacVim
 
 Install MacVim's plugin manager (I use Vundle) ...
 
@@ -66,11 +74,11 @@ mvim -v
 
 ... and install all plugins listed in `~/.vim/vimrc` by typing `:PluginInstall`.
 
-### Step 6: Install Menlo-ForPowerline font
+### Step 7: Install Menlo-ForPowerline font
 
 Install the Menlo-ForPowerline font. The font file is located at `~/dotfiles/assets/fonts/Menlo-ForPowerline.ttc`. On macOS, just double-click the font file.
 
-### Step 7: Set up tmux
+### Step 8: Set up tmux
 
 Install tmux's plugin manager ...
 
