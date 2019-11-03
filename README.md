@@ -48,10 +48,11 @@ I like [Theme - Glacier](https://packagecontrol.io/packages/Theme%20-%20Glacier)
 * Navigate to `~/dotfiles/assets/itermcolors` and select `crookse_glacier.itermcolors`.
 * Once `crookse_glacier` is imported, open the dropdown menu again and select `crookse_glacier`.
 
-### Step 5: Make symlinks to dotfiles and copies of sample files
+### Step 5: Make symlinks to dotfiles and copies of sample files; add directories
 
 ```
 ~/dotfiles/dotfiles
+mkdir ~/.vim/backups
 ```
 
 _Symlinks will be created from `~/dotfiles` to `~/` (e.g., `~/dotfiles/.vim ~/.vim`)_
