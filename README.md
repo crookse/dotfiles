@@ -78,7 +78,7 @@ mvim -v
 
 Install the Menlo-ForPowerline font. The font file is located at `~/dotfiles/assets/fonts/Menlo-ForPowerline.ttc`. On macOS, just double-click the font file.
 
-### Step 8: Set up tmux
+### Step 8: Set up and run tmux
 
 Install tmux's plugin manager ...
 
@@ -86,10 +86,14 @@ Install tmux's plugin manager ...
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-... open tmux ...
+... source `tpm` ...
+
+```
+tmux source ~/.tmux.conf
+```
+
+... and run `tmux` ...
 
 ```
 tmux
 ```
-
-... and install all plugins listed in the `~/.tmux/plugins` directory by pressing `Ctrl+s` + `I`. I have configured the tmux prefix to be `Ctrl+s`. The original prefix is `Ctrl+b`.
