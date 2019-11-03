@@ -9,6 +9,7 @@
 
   symlink() {
     file=$1
+    echo -e "Unlinking symlink if it exists"
     unlink $HOME/$file
     echo -e "Making symlink: ~/dotfiles/${file} -> ~/${file}"
     ln -s $HOME/dotfiles/$file $HOME/$file
@@ -25,5 +26,7 @@
   create_real_file ".bashrc"
   create_real_file ".bash_profile"
   create_real_file ".tmux/theme.sh"
+  create_real_file ".vim/vimrc"
 
+  mkdir $HOME/dotfiles/.vim/backups
 )
