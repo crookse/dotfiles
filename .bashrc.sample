@@ -143,10 +143,6 @@ alias tmux='tmux -2'
 alias tmux.boot='tmux new -s 0'
 alias tmux.open='tmux attach -t 0'
 
-# Vim
-alias vi='mvim -v'  # Let's not start vi
-alias vim='mvim -v' # Let's not start vim either
-
 #-------------------------------------------------------------------------------
 # Bash Profile
 #-------------------------------------------------------------------------------
