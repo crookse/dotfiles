@@ -1,22 +1,13 @@
 const projects: {[key: string]: string[]} = {
   drashland: [
-    "accio",
-    "deno-drash-realworld-example-app",
-    "dmm",
     "drash",
-    "line",
-    "moogle",
-    "moogle-pro",
-    "rhum",
-    "services",
-    "sinco",
-    "unilogger",
-    "website-v2",
-    "wocket",
-  ]
+  ],
+  npm: [
+    "documentation",
+  ],
 }
 
-const path = Deno.args[0] || "~/src";
+const path = "/Users/ericcrooks/src";
 
 let output = `pane	playground	1	1	:*	1	:${path}	0	bash	:\n`;
 
