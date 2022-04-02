@@ -18,4 +18,5 @@ hidden/*
 make_sessions.ts
 tags
 tmux-last
+tmux_resurrect_fresh.txt
 vimrc

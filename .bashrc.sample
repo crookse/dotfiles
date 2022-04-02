@@ -143,6 +143,7 @@ alias composer='composer.phar'
 alias tmux='tmux -2'
 alias tmux.boot='tmux new -s 0'
 alias tmux.open='tmux attach -t 0'
+alias tmux.make.sessions='deno run -A ~/.tmux/make_sessions.ts && vim ~/dotfiles/tmux_resurrect_fresh.txt'
 
 # Browsers
 alias firefox='/Applications/Firefox.app/Contents/MacOS/firefox'
