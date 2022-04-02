@@ -17,19 +17,20 @@ export LSCOLORS=excxFxFxBxxfxfxBxBxexe # Set directory colors
 export EDITOR='vim'                    # Set terminal editor to vim
 export TERM='xterm-256color'           # Support 256 colors
 
-if [[ $__CROOKSE_ENV_VAR__PATH_SET == "path_set" ]]; then
-  dotfiles_echo "Same session. PATH already set. Skipping."
-elif [[ $__CROOKSE_ENV_VAR__PATH_SET == "path_full_reset" ]]; then
+if [[ $__CROOKSE_ENV_VAR__PATH_SET == "path_full_reset" ]]; then
   echo -n "[.bashrc] Same session. Resetting PATH..."
   export PATH=$OG_PATH
-  export __CROOKSE_ENV_VAR__PATH_SET="path_set"
+  export DENO_INSTALL="/Users/ericcrooks/.deno"
+  export PATH="$OG_PATH:$DENO_INSTALL/bin:/usr/local/lib/node_modules/bin"
   echo " Done."
+elif [[ $__CROOKSE_ENV_VAR__PATH_SET == "regular_moab" ]]; then
+  dotfiles_echo "Same session."
 else
   echo -n "[.bashrc] New session. Setting PATH..."
-  export PATH=$PATH
-  # Flag the PATH as "already set" to prevent appending the PATH to the PATH when this file realods.
-  export __CROOKSE_ENV_VAR__PATH_SET="path_set"
-  export OG_PATH=$PATH
+  export OG_PATH=$PATH # Save the original path
+  export DENO_INSTALL="/Users/ericcrooks/.deno"
+  export PATH="$OG_PATH:$DENO_INSTALL/bin:/usr/local/lib/node_modules/bin"
+  export __CROOKSE_ENV_VAR__PATH_SET="regular_moab"
   echo " Done."
 fi
 
@@ -142,6 +143,9 @@ alias composer='composer.phar'
 alias tmux='tmux -2'
 alias tmux.boot='tmux new -s 0'
 alias tmux.open='tmux attach -t 0'
+
+# Browsers
+alias firefox='/Applications/Firefox.app/Contents/MacOS/firefox'
 
 #-------------------------------------------------------------------------------
 # Bash Profile
