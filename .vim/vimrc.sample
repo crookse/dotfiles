@@ -36,6 +36,13 @@ Plugin 'tpope/vim-obsession'               " vim-obsession to make Session.vim b
 Plugin 'tpope/vim-surround'                " vim-surround to work with HTML, XML, etc.
 Plugin 'tpope/vim-unimpaired'              " vim-unimpaired to quickly toggle and navigate
 Plugin 'vim-airline/vim-airline'           " Airline (alternate vim-only version deprecated vim-powerline)
+" Completion Support (:CocInstall coc-css coc-html coc-json coc-phpls coc-sh
+" coc-pyright coc-tsserver)
+Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+
+" FZF Fuzzy Finder (also `brew install bat` for syntax-highlighted preview)
+Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plugin 'junegunn/fzf.vim'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -200,6 +207,10 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Enable ability to load man pages in Vim (with ":Man")
 runtime! ftplugin/man.vim
 
+" let &t_SI.="\e[4 q"
+" let &t_SR.="\e[4 q"
+" let &t_EI.="\e[4 q"
+
 "///////////////////////////////////////////////////////////////////////////////////////////////////
 "// FILE MARKER - SETTINGS - GVIM //////////////////////////////////////////////////////////////////
 "///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -239,7 +250,7 @@ augroup filetypeSpecific
   autocmd FileType javascript     setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2 textwidth=100     colorcolumn=101
   autocmd FileType javascript.jsx setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2                   colorcolumn=101
   autocmd FileType json           setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2
-  autocmd FileType markdown       setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2
+  autocmd FileType markdown       setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2                   colorcolumn=81
   autocmd FileType nginx          setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4
   autocmd FileType php            setlocal noexpandtab tabstop=4 shiftwidth=4                                 colorcolumn=101               foldmethod=manual
   autocmd FileType pug            setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4 textwidth=0                        wrapmargin=0
@@ -442,6 +453,7 @@ nnoremap <silent> <LocalLeader>gl :Glog<CR>
 
 " * will search word under cursor, but won't immediately jump to first match
 nnoremap * :keepjumps normal! mi*`i<CR>
+nnoremap ( :keepjumps normal! g*`i<CR>
 
 " Turn off highlighting of search
 nnoremap <silent> <C-n> :nohlsearch<CR>
@@ -473,6 +485,108 @@ nnoremap <silent> <Leader>C :tabc<CR>
 
 " Save a file that requires `sudo` after already editing it
 cnoremap w!! w !sudo tee % >/dev/null
+
+"---------------------------------------------------------------------------------------------------
+" Key Mappings > fzf
+"---------------------------------------------------------------------------------------------------
+
+nnoremap <silent> <Leader>b :Buffers<CR>
+nnoremap <silent> <Leader>t :Files<CR>
+nnoremap <silent> <Leader>T :Tags<CR>
+
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+if has('popupwin')
+    let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9 } }
+endif
+
+if executable('ag')
+    " Add .agignore for more global excludes; .ignore for per-project
+    let $FZF_DEFAULT_COMMAND = 'ag -U --hidden --ignore node_modules --ignore .git --ignore __pycache__ -g ""'
+endif
+
+if executable('bat')
+    let b:FZF_PREVIEW='bat --italic-text=always --color=always --style=header,grid,numbers --line-range :300 {} 2> /dev/null'
+    let $BAT_THEME='1337'
+else
+    let b:FZF_PREVIEW='cat {} 2> /dev/null | head -n300'
+endif
+
+let b:FZF_BINDINGS="--bind='ctrl-p:preview-page-up' --bind='ctrl-n:preview-page-down'"
+
+let $FZF_DEFAULT_OPTS='--ansi ' . b:FZF_BINDINGS . " --preview-window 'right:60%' --preview '" . b:FZF_PREVIEW . "'"
+
+" An action can be a reference to a function that processes selected lines
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
+let g:fzf_action = {
+  \ 'ctrl-l': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'hl':      ['fg', 'PreProc'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Special'],
+  \ 'info':    ['fg', 'Identifier'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Constant'],
+  \ 'pointer': ['fg', 'Constant'],
+  \ 'marker':  ['fg', 'Constant'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+"---------------------------------------------------------------------------------------------------
+" Key Mappings > CoC
+"---------------------------------------------------------------------------------------------------
+set hidden
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
+
+inoremap <silent><expr> <C-x> x coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+  inoremap <expr> <CR> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 
 "///////////////////////////////////////////////////////////////////////////////////////////////////
 "// FILE MARKER - MACROS ///////////////////////////////////////////////////////////////////////////
@@ -526,8 +640,8 @@ function! AJIndent(indent_column, ...)
       \ a:indent_column . '|dw'
 endfunction
 " Map this function to <Leader>i
-nnoremap <Leader>i :call AJIndent()<Left>
-vnoremap <Leader>i :call AJIndent()<Left>
+" nnoremap <Leader>i :call AJIndent()<Left>
+" vnoremap <Leader>i :call AJIndent()<Left>
 
 " Move current line to be a nice reading height from top of window
 function! ReadingHeight()
@@ -549,6 +663,7 @@ nnoremap <Leader>a :silent! Ack!<Space>'
 
 " Start an Ack search in a new tab
 nnoremap <Leader>A :tabe<CR>:silent! Ack<Space>'
+nnoremap <C-t> :tabe<CR>:Files<CR>
 
 " Modify default mappings to open result in middle of the screen
 let g:ack_mappings = {
@@ -600,9 +715,9 @@ let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:30'
 " let g:ctrlp_open_new_file = 'h'
 let g:ctrlp_regexp = 1
 " let g:ctrlp_show_hidden = 1
-nnoremap <silent> <Leader>b :CtrlPBuffer<CR>
-nnoremap <silent> <Leader>t :CtrlP<CR>
-nnoremap <silent> <Leader>T :CtrlPTag<CR>
+" nnoremap <silent> <Leader>b :CtrlPBuffer<CR>
+" nnoremap <silent> <Leader>t :CtrlP<CR>
+" nnoremap <silent> <Leader>T :CtrlPTag<CR>
 
 "///////////////////////////////////////////////////////////////////////////////////////////////////
 "// FILE MARKER - PLUGIN SETTINGS - FUGITIVE ///////////////////////////////////////////////////////
@@ -633,7 +748,7 @@ nnoremap <silent> <Leader>f :NERDTreeFind<CR>
 let NERDTreeShowHidden=1
 
 " Don't show these file types
-let g:NERDTreeIgnore = ['\.pyc$', '\.pyo$']
+let g:NERDTreeIgnore = ['\.pyc$', '\.pyo$', '.DS_Store']
 
 let g:NERDTreeWinSize = 60
 let g:NERDTreeDirArrows = 1
