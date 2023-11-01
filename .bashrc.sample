@@ -18,8 +18,9 @@ export EDITOR='vim'                    # Set terminal editor to vim
 export TERM='xterm-256color'           # Support 256 colors
 
 echo -n "[.bashrc] Same session. Resetting PATH..."
-export DENO_INSTALL="~/.deno"
-export PATH="$DENO_INSTALL/bin:/usr/local/lib/node_modules/bin:$PATH"
+export PATH_DENO="~/.deno/bin"
+export PATH_BREW="/opt/homebrew/bin"
+export PATH="$PATH_DENO:$PATH_BREW:/usr/local/lib/node_modules/bin:$PATH"
 echo " Done."
 
 dotfiles_echo "PATH is... \n  $(echo $PATH | sed -e $'s/:/\\\n  /g')"
@@ -96,24 +97,16 @@ __crookse_macdock_add_spacer() {
   defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'
 }
 
-#
-# Blow up (restart) the currently active shell
-#
-__crookse_moab() {
-  echo "[moab] FULL RESTART"
-  export __CROOKSE_ENV_VAR__PATH_SET="path_full_reset"
-  source ~/dotfiles/.bash_profile
-}
-
 alias MOAB='moab'
+alias moab='exec bash --login'
+
 alias bashrc='vim ~/.bashrc'
 alias copy.etc.hosts='sudo cp ~/dotfiles/.hidden/etc/hosts /etc/hosts'
 alias files.hidden.off='defaults write com.apple.finder AppleShowAllFiles -bool FALSE && killall Finder'
 alias files.hidden.on='defaults write com.apple.finder AppleShowAllFiles -bool TRUE && killall Finder'
 alias ll='ls -la'
 alias macdock.add.spacer='__crookse_macdock_add_spacer'
-alias moab.full-restart='__crookse_moab full-restart'
-alias moab='__crookse_moab'
+
 alias repos='cd ~/repos'
 alias rm.dsstore='for file in $(find . | grep .DS_Store); do rm -i $file; done'
 
