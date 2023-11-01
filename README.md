@@ -98,19 +98,19 @@ Install the Menlo-ForPowerline font. The font file is located at `~/dotfiles/ass
 
 ### Step 8: Set up and run tmux
 
-Install tmux's plugin manager ...
+Install tmux's plugin manager.
 
 ```
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-... source `tpm` ...
+Link the tmux config file to the proper location.
 
 ```
-tmux source ~/.tmux.conf
+ln ~/dotfiles/.tmux.sample.conf ~/.tmux.conf
 ```
 
-... and run `tmux` ...
+Run tmux.
 
 ```
 tmux
