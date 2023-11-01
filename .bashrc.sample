@@ -17,24 +17,12 @@ export LSCOLORS=excxFxFxBxxfxfxBxBxexe # Set directory colors
 export EDITOR='vim'                    # Set terminal editor to vim
 export TERM='xterm-256color'           # Support 256 colors
 
-if [[ $__CROOKSE_ENV_VAR__PATH_SET == "path_full_reset" ]]; then
-  echo -n "[.bashrc] Same session. Resetting PATH..."
-  export PATH=$OG_PATH
-  export DENO_INSTALL="/Users/ericcrooks/.deno"
-  export PATH="$OG_PATH:$DENO_INSTALL/bin:/usr/local/lib/node_modules/bin"
-  echo " Done."
-elif [[ $__CROOKSE_ENV_VAR__PATH_SET == "regular_moab" ]]; then
-  dotfiles_echo "Same session."
-else
-  echo -n "[.bashrc] New session. Setting PATH..."
-  export OG_PATH=$PATH # Save the original path
-  export DENO_INSTALL="/Users/ericcrooks/.deno"
-  export PATH="$OG_PATH:$DENO_INSTALL/bin:/usr/local/lib/node_modules/bin"
-  export __CROOKSE_ENV_VAR__PATH_SET="regular_moab"
-  echo " Done."
-fi
+echo -n "[.bashrc] Same session. Resetting PATH..."
+export DENO_INSTALL="~/.deno"
+export PATH="$DENO_INSTALL/bin:/usr/local/lib/node_modules/bin:$PATH"
+echo " Done."
 
-dotfiles_echo "PATH is... \n  $(echo $PATH | sed -e $'s/:/\\\n  /g' | sort -r)"
+dotfiles_echo "PATH is... \n  $(echo $PATH | sed -e $'s/:/\\\n  /g')"
 dotfiles_echo "TERM is ${TERM}"
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,32 +100,22 @@ __crookse_macdock_add_spacer() {
 # Blow up (restart) the currently active shell
 #
 __crookse_moab() {
-  option="${1}"
-  case "${1}" in
-    "full-restart")
-      echo "[moab] FULL RESTART"
-      export __CROOKSE_ENV_VAR__PATH_SET="path_full_reset"
-      source ~/dotfiles/.bash_profile
-      ;;
-    *)
-      source ~/dotfiles/.bash_profile
-      ;;
-  esac
+  echo "[moab] FULL RESTART"
+  export __CROOKSE_ENV_VAR__PATH_SET="path_full_reset"
+  source ~/dotfiles/.bash_profile
 }
 
-alias files.hidden.on='defaults write com.apple.finder AppleShowAllFiles -bool TRUE && killall Finder'
-alias files.hidden.off='defaults write com.apple.finder AppleShowAllFiles -bool FALSE && killall Finder'
-alias ll='ls -la'
-alias moab='__crookse_moab'
-alias moab.full-restart='__crookse_moab full-restart'
 alias MOAB='moab'
+alias bashrc='vim ~/.bashrc'
 alias copy.etc.hosts='sudo cp ~/dotfiles/.hidden/etc/hosts /etc/hosts'
-alias rm.dsstore='for file in $(find . | grep .DS_Store); do rm -i $file; done'
+alias files.hidden.off='defaults write com.apple.finder AppleShowAllFiles -bool FALSE && killall Finder'
+alias files.hidden.on='defaults write com.apple.finder AppleShowAllFiles -bool TRUE && killall Finder'
+alias ll='ls -la'
 alias macdock.add.spacer='__crookse_macdock_add_spacer'
-
-# Package Managers
-## Composer
-alias composer='composer.phar'
+alias moab.full-restart='__crookse_moab full-restart'
+alias moab='__crookse_moab'
+alias repos='cd ~/repos'
+alias rm.dsstore='for file in $(find . | grep .DS_Store); do rm -i $file; done'
 
 # Tmux
 alias tmux='tmux -2'
@@ -145,8 +123,13 @@ alias tmux.boot='tmux new -s 0'
 alias tmux.open='tmux attach -t 0'
 alias tmux.make.sessions='deno run -A ~/.tmux/make_sessions.ts && vim ~/dotfiles/tmux_resurrect_fresh.txt'
 
-# Browsers
-alias firefox='/Applications/Firefox.app/Contents/MacOS/firefox'
+# Vim
+alias vim=nvim
+alias vi=vim
+
+# Node
+alias ppm=pnpm
+alias ppp=pnpm
 
 #-------------------------------------------------------------------------------
 # Bash Profile
@@ -154,5 +137,24 @@ alias firefox='/Applications/Firefox.app/Contents/MacOS/firefox'
 # 
 # Finally, output that .bash_profile has been executed
 # 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="~/Library/pnpm:$PATH"
+
+# pnpm
+export PNPM_HOME="~/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH=$BUN_INSTALL/bin:$PATH
 
 dotfiles_echo "Your .bashrc file was loaded!"

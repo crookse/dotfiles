@@ -3,80 +3,131 @@
 "///////////////////////////////////////////////////////////////////////////////////////////////////
 
 set nocompatible              " be iMproved, required
-filetype off                  " required
-set shellcmdflag=-ic
+" filetype off                  " required
+" set shellcmdflag=-ic
 
 "///////////////////////////////////////////////////////////////////////////////////////////////////
 "// FILE MARKER - PLUGINS //////////////////////////////////////////////////////////////////////////
 "///////////////////////////////////////////////////////////////////////////////////////////////////
 
-" Set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/bundle')
 
-" Alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" Load Plug help
+Plug 'junegunn/vim-plug'
 
-Plugin 'VundleVim/Vundle.vim'              " Let Vundle manage Vundle, required
-Plugin 'airblade/vim-gitgutter'            " Git plugin to indicate lines with changes
-Plugin 'crookse/vim-airline-themes'        " (forked) Airline Themes
-Plugin 'crookse/vim-crookse'               " 'crookse' vim additions
-Plugin 'ctrlpvim/ctrlp.vim'                " CtrlP Fuzzy Finder
-Plugin 'danro/rename.vim'                  " Rename a buffer within Vim and on the disk
-Plugin 'leafgarland/typescript-vim'
-Plugin 'mileszs/ack.vim'                   " ack.vim. Note: that this requires ack (`brew install ack`)
-Plugin 'scrooloose/nerdTree'               " NERDTree plugin
-Plugin 'scrooloose/nerdcommenter'          " NERD Commenter NERD Commenter
-Plugin 'scrooloose/syntastic'              " syntastic linter
-Plugin 'shawncplus/phpcomplete.vim'        " phpcomplete for improved omni-completion in PHP. Use <C-x><C-o>
-Plugin 'sheerun/vim-polyglot'              " A solid language pack for Vim
-Plugin 'tpope/tpope-vim-abolish'           " Do things to a word
-Plugin 'tpope/vim-fugitive'                " Git plugin to allow branch info to show
-Plugin 'tpope/vim-obsession'               " vim-obsession to make Session.vim better
-Plugin 'tpope/vim-surround'                " vim-surround to work with HTML, XML, etc.
-Plugin 'tpope/vim-unimpaired'              " vim-unimpaired to quickly toggle and navigate
-Plugin 'vim-airline/vim-airline'           " Airline (alternate vim-only version deprecated vim-powerline)
-" Completion Support (:CocInstall coc-css coc-html coc-json coc-phpls coc-sh
-" coc-pyright coc-tsserver)
-Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+" NERDTree plugin
+Plug 'scrooloose/nerdtree'
+
+" NERD Commenter
+Plug 'scrooloose/nerdcommenter'
+
+" Airline (alternate vim-only version of now depricated vim-powerline)
+Plug 'vim-airline/vim-airline'
+" Plug 'nvim-lualine/lualine.nvim'
+" lua << END
+" require('lualine').setup()
+" END
+
+" Git plugin to allow branch info to show
+Plug 'tpope/vim-fugitive'
+
+" Git plugin to indicate lines with changes
+Plug 'airblade/vim-gitgutter'
+
+" vim-obsession to make Session.vim better
+Plug 'tpope/vim-obsession'
+
+" vim-surround to work with HTML, XML, etc.
+Plug 'tpope/vim-surround'
+
+" vim-unimpaired to quickly toggle and navigate
+Plug 'tpope/vim-unimpaired'
+
+" vim-repeat to give repeatability to vim-surround, vim-unimpaired, and others
+Plug 'tpope/vim-repeat'
+
+" syntastic linter
+Plug 'scrooloose/syntastic'
 
 " FZF Fuzzy Finder (also `brew install bat` for syntax-highlighted preview)
-Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plugin 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" CtrlP Fuzzy Finder
+" Plug 'ctrlpvim/ctrlp.vim'
+
+" Command-T (Fuzzy Finder)
+" Plug 'wincent/command-t'
+
+" ack.vim
+" Note that this requires ack (`brew install ack`)
+Plug 'mileszs/ack.vim'
+
+" Completion Support (:CocInstall coc-css coc-go coc-json coc-html coc-phpls
+" coc-pyright coc-sh coc-tsserver)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Show CSS colors inline
+Plug 'ap/vim-css-color', { 'for': ['css', 'sass', 'scss', 'jsx'] }
+
+" Go language support
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': ['go'] }
+
+" GraphQL syntax support
+Plug 'jparise/vim-graphql', { 'for': ['graphql'] }
+
+" hcl syntax support
+Plug 'jvirtanen/vim-hcl', { 'for': ['hcl'] }
+
+" javascript syntax highlighting
+Plug 'pangloss/vim-javascript', { 'for': ['javascript'] }
+
+" jsx support
+Plug 'mxw/vim-jsx', { 'for': ['jsx'] }
+
+" typescript syntax support
+Plug 'leafgarland/typescript-vim', { 'for': ['typescript'] }
+
+" Bundler support (Ruby)
+Plug 'tpope/vim-bundler', { 'for': ['ruby'] }
+
+" rails support (Ruby)
+Plug 'tpope/vim-rails', { 'for': ['ruby'] }
+
+" rbenv support (Ruby)
+Plug 'tpope/vim-rbenv', { 'for': ['ruby'] }
+
+" Ruby support
+Plug 'vim-ruby/vim-ruby', { 'for': ['ruby'] }
+
+Plug 'crookse/vim-airline-themes'        " (forked) Airline Themes
+Plug 'crookse/vim-crookse'               " 'crookse' vim additions
 
 " The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
+" Keep Plug commands between plug#begin/end.
 " plugin on GitHub repo
-" Plugin 'tpope/vim-fugitive'
-" " plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
+" Plug 'tpope/vim-fugitive'
 " " Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
+" Plug 'git://git.wincent.com/command-t.git'
 " " git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
+" Plug 'file:///home/gmarik/path/to/plugin'
 " " The sparkup vim script is in a subdirectory of this repo called vim.
 " " Pass the path to set the runtimepath properly.
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 " " Avoid a name conflict with L9
-" Plugin 'user/L9', {'name': 'newL9'}
+" Plug 'user/L9', {'name': 'newL9'}
 "
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
+call plug#end()            " required
 
-" filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-filetype plugin on
-
+"
 " Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just
-" :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to
-" auto-approve removal
+" :PlugInstall    - installs plugins
+" :PlugUpdate
+" :PlugClean      - confirms removal of unused plugins
+" :PlugStatus     - check the status of plugins
 
-" See :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" See :h plug for more details or wiki for FAQ
 
 "///////////////////////////////////////////////////////////////////////////////////////////////////
 "// FILE MARKER - SETTINGS /////////////////////////////////////////////////////////////////////////
@@ -219,7 +270,8 @@ runtime! ftplugin/man.vim
 set guicursor+=a:blinkon0
 
 " Make cursor shape an underline
-set guicursor+=a:hor10
+" set guicursor+=a:hor10
+set guicursor+=i:block
 
 " Hide scrollbars
 set guioptions-=r
@@ -229,40 +281,39 @@ set guioptions-=L
 "// FILE MARKER - FILE SPECIFIC SETTINGS ///////////////////////////////////////////////////////////
 "///////////////////////////////////////////////////////////////////////////////////////////////////
 
-" To force hard tabs, set noexpandtab and don't set softtabstop
-"   tabstop and shiftwidth should be set to the same value
-" To force spaces instead of tabs, set expandtab and softtabstop
-"   shiftwidth and softtabstop should be set to the same value
-
 augroup filetypeSpecific
   autocmd!
-  autocmd FileType apache         setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4
-  autocmd FileType conf           setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
-  autocmd FileType crontab        setlocal nobackup nowritebackup
-  autocmd FileType css            setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4 textwidth=100     colorcolumn=101
-  autocmd FileType hbs            setlocal noexpandtab tabstop=4 shiftwidth=4
-  autocmd FileType help           setlocal nonumber
-  autocmd FileType html           setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=0 textwidth=0
-  autocmd FileType html.mustache  setlocal noexpandtab tabstop=4 shiftwidth=4               textwidth=0                        wrapmargin=0
-  autocmd FileType html.twig      setlocal noexpandtab tabstop=4 shiftwidth=4               textwidth=0
-  autocmd FileType htmldjango     setlocal noexpandtab           shiftwidth=2               textwidth=0
-  autocmd FileType jade           setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4 textwidth=0
-  autocmd FileType javascript     setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2 textwidth=100     colorcolumn=101
-  autocmd FileType javascript.jsx setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2                   colorcolumn=101
-  autocmd FileType json           setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2
-  autocmd FileType markdown       setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2                   colorcolumn=81
-  autocmd FileType nginx          setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4
-  autocmd FileType php            setlocal noexpandtab tabstop=4 shiftwidth=4                                 colorcolumn=101               foldmethod=manual
-  autocmd FileType pug            setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4 textwidth=0                        wrapmargin=0
-  autocmd FileType python         setlocal expandtab   tabstop=8 shiftwidth=4 softtabstop=4
-  autocmd FileType scss           setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4
-  autocmd FileType sh             setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2                   colorcolumn=101
-  autocmd FileType tmux           setlocal noexpandtab tabstop=4 shiftwidth=4               textwidth=100     colorcolumn=101  wrapmargin=0 foldmethod=marker
-  autocmd FileType typescript     setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2 textwidth=80      colorcolumn=81
-  autocmd FileType vue            setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4 textwidth=0       colorcolumn=101
-  autocmd FileType vim            setlocal noexpandtab tabstop=4 shiftwidth=4               textwidth=100     colorcolumn=101  wrapmargin=0 foldmethod=marker
-  autocmd FileType xml            setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
-  autocmd FileType yaml           setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0       colorcolumn=101
+
+  autocmd BufNewFile,BufRead *.mdx set ft=javascript.jsx
+
+  autocmd FileType apache          setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType conf            setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType crontab         setlocal nobackup nowritebackup
+  autocmd FileType css             setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4 textwidth=100     colorcolumn=101
+  autocmd FileType hbs             setlocal noexpandtab tabstop=4 shiftwidth=4
+  autocmd FileType help            setlocal nonumber
+  autocmd FileType html            setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=0 textwidth=0
+  autocmd FileType html.mustache   setlocal noexpandtab tabstop=4 shiftwidth=4               textwidth=0                        wrapmargin=0
+  autocmd FileType html.twig       setlocal noexpandtab tabstop=4 shiftwidth=4               textwidth=0
+  autocmd FileType htmldjango      setlocal noexpandtab           shiftwidth=2               textwidth=0
+  autocmd FileType jade            setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4 textwidth=0
+  autocmd FileType javascript      setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2 textwidth=100     colorcolumn=101
+  autocmd FileType javascript.jsx  setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2                   colorcolumn=101
+  autocmd FileType json            setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2
+  autocmd FileType markdown        setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2                   colorcolumn=81
+  autocmd FileType nginx           setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType php             setlocal noexpandtab tabstop=4 shiftwidth=4                                 colorcolumn=101               foldmethod=manual
+  autocmd FileType pug             setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4 textwidth=0                        wrapmargin=0
+  autocmd FileType python          setlocal expandtab   tabstop=8 shiftwidth=4 softtabstop=4
+  autocmd FileType scss            setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType sh              setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2                   colorcolumn=101
+  autocmd FileType tmux            setlocal noexpandtab tabstop=4 shiftwidth=4               textwidth=100     colorcolumn=101  wrapmargin=0 foldmethod=marker
+  autocmd FileType typescript      setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2 textwidth=80      colorcolumn=81
+  autocmd FileType typescriptreact setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2 textwidth=80      colorcolumn=81
+  autocmd FileType vue             setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4 textwidth=0       colorcolumn=101
+  autocmd FileType vim             setlocal noexpandtab tabstop=2 shiftwidth=2               textwidth=100     colorcolumn=101  wrapmargin=0 foldmethod=marker
+  autocmd FileType xml             setlocal noexpandtab tabstop=2 shiftwidth=2 softtabstop=2
+  autocmd FileType yaml            setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0       colorcolumn=101
 augroup END
 
 "///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -281,7 +332,7 @@ let maplocalleader="\\" " Change <LocalLeader> to '\' (backslash)
 "---------------------------------------------------------------------------------------------------
 
 " Edit vimrc (opens in new tabe)
-noremap <Leader>ve :tabe $MYVIMRC<CR>
+noremap <Leader>ve :tabe ~/.vim/vimrc<CR>
 " Source vimrc
 nnoremap <silent> <Leader>vs :source $MYVIMRC<CR>:noh<CR>:AirlineRefresh<CR>:echo 'vimrc config file reset!'<CR>
 
@@ -681,7 +732,7 @@ let g:ack_mappings = {
 "// FILE MARKER - PLUGIN SETTINGS - AIRLINE ////////////////////////////////////////////////////////
 "///////////////////////////////////////////////////////////////////////////////////////////////////
 
-let g:airline_powerline_fonts = 1
+" let g:airline_powerline_fonts = 1
 let g:airline_theme = 'powerlineish'
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#whitespace#mixed_indent_algo = 2
@@ -700,7 +751,6 @@ let g:airline_symbols.branch = '⭠'
 let g:airline_symbols.readonly = '⭤'
 let g:airline_symbols.linenr = '⭡'
 let g:airline_symbols.maxlinenr = '☰'
-" }}}
 
 "///////////////////////////////////////////////////////////////////////////////////////////////////
 "// FILE MARKER - PLUGIN SETTINGS - CTRL P /////////////////////////////////////////////////////////
