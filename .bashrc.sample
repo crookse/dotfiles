@@ -17,15 +17,6 @@ export LSCOLORS=excxFxFxBxxfxfxBxBxexe # Set directory colors
 export EDITOR='vim'                    # Set terminal editor to vim
 export TERM='xterm-256color'           # Support 256 colors
 
-echo -n "[.bashrc] Same session. Resetting PATH..."
-export PATH_DENO="~/.deno/bin"
-export PATH_BREW="/opt/homebrew/bin"
-export PATH="$PATH_DENO:$PATH_BREW:/usr/local/lib/node_modules/bin:$PATH"
-echo " Done."
-
-dotfiles_echo "PATH is... \n  $(echo $PATH | sed -e $'s/:/\\\n  /g')"
-dotfiles_echo "TERM is ${TERM}"
-
 #///////////////////////////////////////////////////////////////////////////////////////////////////
 #// VARIABLES //////////////////////////////////////////////////////////////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,19 +129,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-export PATH="~/Library/pnpm:$PATH"
-
-# pnpm
-export PNPM_HOME="~/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH=$BUN_INSTALL/bin:$PATH
-
 dotfiles_echo "Your .bashrc file was loaded!"
+
+dotfiles_echo "PATH is... \n  $(echo $PATH | sed -e $'s/:/\\\n  /g')"
+dotfiles_echo "TERM is ${TERM}"
