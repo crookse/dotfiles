@@ -24,7 +24,7 @@ brew install tmux
 
 ### Step 3: Use Bash by default
 
-I always make sure my default system shell is bash by running the following:
+I always make sure my default system shell is bash by running the following (use zsh if you prefer):
 
 ```
 chsh -s /bin/bash
@@ -42,29 +42,55 @@ I like [Theme - Glacier](https://packagecontrol.io/packages/Theme%20-%20Glacier)
 
 ### Step 5: Make symlinks to the files inside the `~/dotfiles` directory
 
+Notes before running:
+
+- `vim` will be set as an alias to `nvim`
+- Symlinks will be created from `~/dotfiles` to `~/` (e.g., `~/dotfiles/.vim` to `~/.vim`)
+- Sample files will be used to create real files (e.g., `~/.bashrc.sample` to `~/.bashrc`)
+
 ```
 . ~/dotfiles/dotfiles
 ```
 
-_Symlinks will be created from `~/dotfiles` to `~/` (e.g., `~/dotfiles/.vim` to `~/.vim`)_
+### Step 6: Set up Neovim
 
-_Sample files will be used to create real files (e.g., `~/.bashrc.sample` to `~/.bashrc`)_
-
-### Step 6: Set up Vim
-
-Install Vim's plugin manager (I use Vundle) ...
+Install Neovim.
 
 ```
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+brew install nvim
 ```
 
-... open Vim ...
+Copy the `init.vim` file to Neovim's config directory.
+
+```
+mkdir -p ~/.config/nvim
+cp ~/.vim/nvim/init.vim ~/.config/nvim/init.vim
+```
+
+Install plug.
+
+```
+. vim-plug-install
+```
+
+Open Neovim
 
 ```
 vim
 ```
 
-... and install all plugins listed in `~/.vim/vimrc` by typing `:PluginInstall`.
+Install all plugins listed in `~/.vim/vimrc` by pressing `:` to begin typing the following at the bottom of the screen:
+
+```
+PlugInstall
+```
+
+Change keybaord repeat quickness:
+
+1. Open System Settings.
+1. Go to Keyboard settings.
+1. Set "Key repeat rate" to "Fast".
+1. Set "Delay until repeat" to "Short".
 
 ### Step 7: Install Menlo-ForPowerline font
 
