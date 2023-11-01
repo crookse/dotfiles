@@ -124,6 +124,9 @@ alias vi=vim
 alias ppm=pnpm
 alias ppp=pnpm
 
+# Source Tree
+alias stree="/Applications/Sourcetree.app/Contents/Resources/stree"
+
 #-------------------------------------------------------------------------------
 # Bash Profile
 #-------------------------------------------------------------------------------
