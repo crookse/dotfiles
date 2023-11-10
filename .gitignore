@@ -15,6 +15,7 @@ hidden/*
 .shellrc.load
 .tmux.conf
 .tmux/theme.sh
+git-profile
 make_sessions.ts
 tags
 tmux-last

@@ -21,12 +21,12 @@ __crookse_parse_git_branch() {
 # Check if the current directory is a Git repository
 #
 __crookse_check_if_git() {
-	if [[ $(__crookse_parse_git_branch) ]]; then
-		local branch=$(__crookse_parse_git_branch)
-		# 45, 232 (black on light blue)
-		# 166 orange
-		tput setaf 166
-		echo -en "\ngit: ${branch}"
-		tput sgr0
-	fi
+  if [[ $(__crookse_parse_git_branch) ]]; then
+    local branch=$(__crookse_parse_git_branch)
+    # 45, 232 (black on light blue)
+    # 166 orange
+    tput setaf 166
+    echo -en "\ngit: ${branch} ($(git config user.name) / $(git config user.email))"
+    tput sgr0
+  fi
 }

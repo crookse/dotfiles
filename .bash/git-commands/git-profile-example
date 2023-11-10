@@ -1,0 +1,38 @@
+#!/bin/bash
+
+(
+  github_user_global=$(git config --global user.name)
+  github_email_global=$(git config --global user.email)
+  github_user_cwd=$(git config user.name)
+  github_email_cwd=$(git config user.email)
+
+  if [[ -z $1 ]]; then
+    echo -e "\nGlobal\n"
+    echo -e "  Name:  $github_user_global"
+    echo -e "  Email: $github_email_global"
+    echo -e "\nCWD\n"
+    echo -e "  Name:  $githb_user_cwd"
+    echo -e "  Email: $githb_email_cwd"
+    exit
+  fi
+
+  case $1 in
+    profile1)
+      echo "Git profile set to: profile1"
+      git config user.email ""
+      git config user.name ""
+    ;;
+    profile2)
+      echo "Git profile set to: profile2"
+      git config user.email ""
+      git config user.name ""
+    ;;
+    init)
+      echo "Initializing Git profile"
+      git profile profile1
+    ;;
+    *)
+      echo "Uknown profile"
+    ;;
+  esac
+)
