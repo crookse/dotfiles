@@ -4,6 +4,7 @@
 .tmux/resurrect/
 .vim/backups/*
 .vim/bundle/*
+.vim/plugged/
 .vim/spell/*
 assets/iterm-profiles/*
 assets/tmux-theme
