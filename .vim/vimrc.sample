@@ -303,6 +303,7 @@ augroup filetypeSpecific
   autocmd FileType markdown        setlocal expandtab   tabstop=2 shiftwidth=2 softtabstop=2                   colorcolumn=81
   autocmd FileType nginx           setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4
   autocmd FileType php             setlocal noexpandtab tabstop=4 shiftwidth=4                                 colorcolumn=101               foldmethod=manual
+  autocmd FileType pinescript      setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4                                  commentstring=//\ %s
   autocmd FileType pug             setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4 textwidth=0                        wrapmargin=0
   autocmd FileType python          setlocal expandtab   tabstop=8 shiftwidth=4 softtabstop=4
   autocmd FileType scss            setlocal expandtab   tabstop=4 shiftwidth=4 softtabstop=4
