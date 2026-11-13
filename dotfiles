@@ -29,4 +29,16 @@
   create_real_file ".vim/vimrc"
 
   mkdir $HOME/dotfiles/.vim/backups
+
+  # Neovim reads ~/.config/nvim/init.vim, which is ~/dotfiles/.vim/nvim/init.vim.
+  mkdir -p $HOME/.config
+  if [ -d $HOME/.config/nvim ] && [ ! -L $HOME/.config/nvim ]; then
+    backup=$HOME/.config/nvim.bak.$(date +%Y%m%d%H%M%S)
+    echo -e "Moving existing ~/.config/nvim to ${backup}"
+    mv $HOME/.config/nvim $backup
+  fi
+  echo -e "Unlinking symlink if it exists"
+  unlink $HOME/.config/nvim 2>/dev/null
+  echo -e "Making symlink: ~/dotfiles/.vim/nvim -> ~/.config/nvim"
+  ln -s $HOME/dotfiles/.vim/nvim $HOME/.config/nvim
 )

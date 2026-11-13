@@ -60,17 +60,12 @@ Install Neovim.
 brew install nvim
 ```
 
-Copy the `init.vim` file to Neovim's config directory.
+Neovim's config needs no extra setup: the `dotfiles` script in Step 5 links `~/.config/nvim` to `~/dotfiles/.vim/nvim`, whose `init.vim` loads `~/.vim/vimrc`. vim-plug ships in `~/.vim/autoload/plug.vim`.
+
+Install all plugins listed in `~/.vim/vimrc` (coc.nvim needs Node: `brew install node`).
 
 ```
-mkdir -p ~/.config/nvim
-cp ~/.vim/nvim/init.vim ~/.config/nvim/init.vim
-```
-
-Install plug.
-
-```
-. vim-plug-install
+nvim +PlugInstall +qa
 ```
 
 Open Neovim
@@ -79,11 +74,7 @@ Open Neovim
 vim
 ```
 
-Install all plugins listed in `~/.vim/vimrc` by pressing `:` to begin typing the following at the bottom of the screen:
-
-```
-PlugInstall
-```
+Optional: to make Neovim's colors exactly match Vim's, open a file in real Vim (`/usr/bin/vim` or `command vim`, not the `nvim` alias) and run `:source ~/.vim/nvim/export_highlights.vim`. This writes `~/.vim/nvim/vim_highlights.vim`, which Neovim loads on startup. Commit it so other machines pick it up.
 
 Change keybaord repeat quickness:
 
